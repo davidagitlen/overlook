@@ -44,6 +44,11 @@ class Hotel {
 		return roomServicesTotal + roomTotal
 	}
 
+	getPercentageOccupied(date) {
+		let todaysBookings = this.getTodaysBookings(date);
+		return (todaysBookings.length/this.rooms.length).toFixed(2) * 100
+	}
+
 }
 
 export default Hotel;

@@ -76,4 +76,10 @@ describe('Hotel', () => {
 		});
 	});
 
+	describe('getPercentageOccupied', () => {
+		it('should return the percentage of rooms occupied for today\'s date', () => {
+			expect(hotel.getPercentageOccupied('2019/07/25')).to.equal(53);
+		});
+	});
+
 })
