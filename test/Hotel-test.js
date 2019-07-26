@@ -1,5 +1,5 @@
 import Hotel from '../src/Hotel';
-import mockData from '../src/mock-data.js';
+import mockData from '../src/mock-data';
 import chai from 'chai';
 import spies from 'chai-spies';
 
@@ -48,31 +48,31 @@ describe('Hotel', () => {
 
 	describe('getCurrentDate', () => {
 		it.skip('should return today\'s date in the proper format', () => {
-			expect(hotel.getCurrentDate()).to.equal('2019/07/25')
+			expect(hotel.getCurrentDate()).to.equal('2019/07/25');
 		});
 	});
 
 	describe('getTodaysBookings', () => {
 		it('should return today\'s booked rooms', () => {
-			expect(hotel.getTodaysBookings('2019/07/25')).to.eql(oddRoomsBooked)
+			expect(hotel.getTodaysBookings('2019/07/25')).to.eql(oddRoomsBooked);
 		});
 	});
 
 	describe('getTodaysRoomServices', () => {
 		it('should return room services ordered today', () => {
-			expect(hotel.getTodaysRoomServices('2019/07/25')).to.eql(mockData.roomServices.slice(0,3))
+			expect(hotel.getTodaysRoomServices('2019/07/25')).to.eql(mockData.roomServices.slice(0,3));
 		});
 	});
 
 	describe('getUnoccupiedRooms', () => {
 		it('should return total unoccupied rooms for today\'s date', () => {
-			expect(hotel.getUnoccupiedRooms('2019/07/25')).to.eql(evenRooms)
+			expect(hotel.getUnoccupiedRooms('2019/07/25')).to.eql(evenRooms);
 		});
 	});
 
 	describe('getTotalRevenue', () => {
 		it('should return total revenue for today\'s date', () => {
-			expect(hotel.getTotalRevenue('2019/07/25')).to.equal(2287.35)
+			expect(hotel.getTotalRevenue('2019/07/25')).to.equal(2287.35);
 		});
 	});
 
