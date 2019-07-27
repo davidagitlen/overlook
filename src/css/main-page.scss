@@ -1,0 +1,36 @@
+$primary-background: #FDFDFD;
+$main-color: #00008B;
+
+@mixin dimensions($height, $width) {
+	height: $height;
+	width: $width;
+}
+
+body {
+  @include dimensions(100%, 100%);
+	font-family: 'IBM Plex Sans', 'Arial', sans-serif; 
+	color: #303030;
+  background-color: $primary-background;
+  padding: 10px;
+}
+
+main {
+	@include dimensions(100%, 100%)
+}
+
+.splash {
+	@include dimensions(250px, 400px);
+	background-color: lighten($main-color, 70%);
+	color: $main-color;
+	display: none;
+	margin: auto;
+	text-align: center;
+	vertical-align: middle;
+	position: absolute;
+	top: 40%;
+	left: 40%;
+
+	& h2 {
+		margin: 75px 0px 0px 0px;
+	}
+}

@@ -1,0 +1,49 @@
+$border-style: 2px solid;
+$main-color: #00008B;
+$customer-color: #228B22;
+$room-color: #FFD700;
+$order-color: #960B0B;
+
+@mixin dimensions($height, $width) {
+	height: $height;
+	width: $width;
+}
+
+.tab-link {
+	@include dimensions(50px, 24%);
+	border: $border-style;
+	border-bottom: none;
+	border-radius: 2.5px 2.5px 0px 0px;
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 600;
+	outline: blue;
+	cursor: grab;
+
+	&#main-tab {
+		border-color: $main-color;
+	}
+
+	&#customer-tab {
+		border-color: $customer-color;
+	}
+
+	&#room-tab {
+		border-color: $room-color;
+	}
+
+	&#roomservice-tab {
+		border-color: $order-color;
+	}
+
+	&:hover {
+		font-style: italic;
+		background-color: ghostwhite;
+		color: red;
+	}
+
+	&:focus {
+		background-color: rgba(0, 255, 255, .5);
+	}
+
+}

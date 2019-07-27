@@ -1,0 +1,33 @@
+$border-style: 2px solid;
+$main-color: #00008B;
+$customer-color: #228B22;
+$room-color: #FFD700;
+$order-color: #960B0B;
+
+@mixin dimensions($height, $width) {
+	height: $height;
+	width: $width;
+}
+
+.tab-content {
+	@include dimensions(72vh, 94.5%)
+	padding: 25px;
+	border: $border-style;
+
+	&#main {
+		border-color: $main-color;
+	}
+
+	&#customer {
+		border-color: $customer-color;
+	}
+
+	&#room {
+		border-color: $room-color;
+	}
+
+	&#roomservice {
+		border-color: $order-color;
+	}	
+
+}

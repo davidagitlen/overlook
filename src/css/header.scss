@@ -1,0 +1,53 @@
+@mixin dimensions($height, $width) {
+	height: $height;
+	width: $width;
+}
+
+header {
+	@include dimensions(100px, 95%)
+	display: grid;
+	grid-template: "a b" 100px / 1fr 1fr;
+	padding: 10px;
+
+	& #inner-header {
+		display: flex;
+		margin: 15px 0px 0px 0px;
+	}
+
+	& h1 {
+		grid-area: a;
+		font-size: 62px;
+		font-weight: 700;
+		margin: 0px 45px 0px 0px;
+	}
+
+	& img {
+		@include dimensions(40px, 40px);
+		margin: 14px 20px 0px 0px;
+	}
+
+	& p {
+		grid-area: a;
+		font-size: 16px;
+		font-style: italic;
+		margin: 0px 0px 0px 10px;
+	}
+
+	& form {
+		margin: 35px 0px 35px 0px;
+	}
+
+	& label {
+		margin: 0px 10px 0px 0px;
+	}
+
+	& input {
+		@include dimensions(25px, 33%);
+		// margin: 0px 10px 0px 0px;
+		grid-area: b;
+		border: solid gray .5px;
+		border-radius: 2px;
+		font-size: 14px;
+	}
+
+}
