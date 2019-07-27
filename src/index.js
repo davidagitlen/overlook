@@ -17,6 +17,7 @@ let roomsAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/roo
 let bookingsAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings');
 let roomServicesAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/room-services/roomServices'); 
 let currentHotel = null;
+let currentCustomer = null;
 
 Promise.all([usersAPICall, roomsAPICall, bookingsAPICall, roomServicesAPICall])
   .then(values => Promise.all(values.map(value => value.json())))
@@ -32,6 +33,8 @@ $('.splash').show(0).delay(3000).hide(0);
 $('.tab-content').hide();
 $('#main').show();
 $('#main-tab, #customer-tab, #room-tab, #roomservice-tab').on('click', showTabContent);
+$('#customer-name-field').on('keypress', handleCustomerSearch);
+$('#customer').on('click', instantiateCustomer);
 
 setTimeout(() => {
 	domUpdates.defaultMainTab(currentHotel);
@@ -50,6 +53,25 @@ function showTabContent(e) {
 	$('.tab-content').hide();
 	$(`#${id}`).show();
 }
+
+function handleCustomerSearch(e) {
+	if (e.which === 13 && !$('#customer-name-field').val()) {
+		e.preventDefault();
+	}
+	else if (e.which === 13) {
+		e.preventDefault();
+		let name = $('#customer-name-field').val();
+		console.log(name)
+		$('#customer').html(currentHotel.findCustomer(name));
+	}
+}
+
+function instantiateCustomer(e) {
+	let customer = currentHotel.users.find(user => user.name === e.target.dataset.user);
+	currentCustomer = new Customer(customer.name, customer.id);
+	console.log('current customer instance', currentCustomer);
+	}
+
 
 // function displayCurrentDate() {
 // 	let today = new Date();

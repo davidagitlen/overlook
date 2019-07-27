@@ -1,3 +1,5 @@
+import domUpdates from './domUpdates';
+
 class Hotel {
 	constructor(users, rooms, bookings, roomServices, today) {
 		this.users = users.users;
@@ -47,6 +49,13 @@ class Hotel {
 	getPercentageOccupied(date = this.currentDate) {
 		let todaysBookings = this.getTodaysBookings(date);
 		return (todaysBookings.length/this.rooms.length).toFixed(2) * 100
+	}
+
+	findCustomer(name) {
+		let regex = new RegExp(`${name}`, 'gi');
+		let foundUsers = this.users.filter(user => 
+			user.name.match(regex));
+		return foundUsers.length ? domUpdates.displayUsers(foundUsers) : domUpdates.noUserFound();
 	}
 
 }
