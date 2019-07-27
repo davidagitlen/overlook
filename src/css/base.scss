@@ -27,16 +27,28 @@ header {
 	grid-template: "a b" 100px / 1fr 1fr;
 	padding: 10px;
 
+	& #inner-header {
+		display: flex;
+		margin: 15px 0px 0px 0px;
+	}
+
 	& h1 {
 		grid-area: a;
 		font-size: 62px;
 		font-weight: 700;
+		margin: 0px 45px 0px 0px;
+	}
+
+	& img {
+		@include dimensions(40px, 40px);
+		margin: 14px 20px 0px 0px;
 	}
 
 	& p {
 		grid-area: a;
+		font-size: 16px;
 		font-style: italic;
-		margin: 3px 0px 0px 10px;
+		margin: 0px 0px 0px 10px;
 	}
 
 	& form {

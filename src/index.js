@@ -1,6 +1,9 @@
 import $ from 'jquery';
 import './css/base.scss';
-import './images/turing-logo.png';
+import './images/another-bell.svg';
+import './images/guest.svg';
+import './images/hotel-key.svg';
+import './images/room-service.svg';
 import Hotel from './Hotel';
 
 let today = getCurrentDate();
@@ -51,9 +54,9 @@ function showTabContent(e) {
 function defaultMainTab() {
 	let mainDefault = `
 	<p>${displayCurrentDate()}</p>
-	<p><span>Total Unoccupied Rooms :</span> ${currentHotel.getUnoccupiedRooms().length}<p>
-	<p><span>Total Revenue :</span>$${currentHotel.getTotalRevenue()}</p>
-	<p><span>Percentage of Rooms Occupied :</span> ${currentHotel.getPercentageOccupied()}%`;
+	<p><span>Total Unoccupied Rooms : </span>${currentHotel.getUnoccupiedRooms().length}<p>
+	<p><span>Total Revenue : </span>$${currentHotel.getTotalRevenue()}</p>
+	<p><span>Percentage of Rooms Occupied : </span> ${currentHotel.getPercentageOccupied()}%`;
 	$('#main').html(mainDefault)
 }
 
