@@ -30,19 +30,10 @@ describe('Hotel', () => {
 		expect(hotel).to.be.an.instanceof(Hotel);
 	});
 
-	it('should store all users', () => {
+	it('should store all data correctly', () => {
 		expect(hotel.users).to.eql(mockData.users);
-	});
-
-	it('should store all rooms', () => {
 		expect(hotel.rooms).to.eql(mockData.rooms);
-	});
-
-	it('should store all bookings', () => {
 		expect(hotel.bookings).to.eql(mockData.bookings);
-	});
-
-	it('should store all room services', () => {
 		expect(hotel.roomServices).to.eql(mockData.roomServices);
 	});
 
