@@ -1,6 +1,64 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: aquamarine;
+$primary-background: #fff;
+
+@mixin dimensions($height, $width) {
+	height: $height;
+	width: $width;
+}
 
 body {
+  @include dimensions(100%, 100%);
+	font-family: 'IBM Plex Sans', 'Arial', sans-serif; 
   background-color: $primary-background;
+  padding: 10px;
 }
+
+header {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+
+}
+
+.tab-link {
+	@include dimensions(50px, 24%);
+	border: 4px double;
+	border-radius: 2.5px;
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 600;
+	outline: blue;
+	cursor: grab;
+
+	&#main-tab {
+		border-color: #00008B;
+	}
+
+	&#customer-tab {
+		border-color: #228B22;
+	}
+
+	&#room-tab {
+		border-color: #FFD700;
+	}
+
+	&#room-service-tab {
+		border-color: #8B0000;
+	}
+
+	&:hover {
+		font-style: italic;
+		background-color: ghostwhite;
+		color: red;
+	}
+
+	&:focus {
+		background-color: rgba(0, 255, 255, .5);
+	}
+
+}
+
+.tab-content {
+	height: 100%;
+}
+
+

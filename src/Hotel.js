@@ -1,10 +1,10 @@
 class Hotel {
-	constructor(users, rooms, bookings, roomServices) {
-		this.users = users;
-		this.rooms = rooms;
-		this.bookings = bookings;
-		this.roomServices = roomServices;
-		this.currentDate = this.getCurrentDate();
+	constructor(users, rooms, bookings, roomServices, today) {
+		this.users = users.users;
+		this.rooms = rooms.rooms;
+		this.bookings = bookings.bookings;
+		this.roomServices = roomServices.roomServices;
+		this.currentDate = today;
 	}
 
 	getCurrentDate() {
@@ -41,7 +41,7 @@ class Hotel {
 		let roomTotal = takenRooms.reduce((bill, room) => {
 			return bill + room.costPerNight;
 		}, 0);
-		return roomServicesTotal + roomTotal
+		return roomServicesTotal + roomTotal;
 	}
 
 	getPercentageOccupied(date) {
