@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-  	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600&display=swap" rel="stylesheet">
+  	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700&display=swap" rel="stylesheet">
     <title>Outlook Hotel Management</title>
   </head>
   <body>
   	<header>
-    	<h1>Outlook Hotel Management</h1>
+  		<div>
+	    	<h1>Outlook</h1>
+	    	<p>Hotel Management Tools</p>
+   		</div>
+   		<form>
+   			<label for="customer-name-field">Customer Search</label>
+    		<input type="text" id="customer-name-field" placeholder="Type a Name and Hit Enter">
+    	<form>
   	</header>
   	<main>
-	    <button type="button" class="tab-link" id="main-tab" tabindex="0">Main</button>
-	    <button type="button" class="tab-link" id="customer-tab" tabindex="0">Customer</button>
-	    <button type="button" class="tab-link" id="room-tab" tabindex="0">Room</button>
-	    <button type="button" class="tab-link" id="roomservice-tab" tabindex="0">Room Service</button>
+	    <button type="button" class="tab-link" id="main-tab">Main</button>
+	    <button type="button" class="tab-link" id="customer-tab">Customer Info</button>
+	    <button type="button" class="tab-link" id="room-tab">Bookings</button>
+	    <button type="button" class="tab-link" id="roomservice-tab">Room Service</button>
 	    <div id="main" class="tab-content">
-	    	<h2>Main</h2>
-	    	<p>Main Information</p>
+	   <!--  	<h2>Main</h2>
+	    	<p>Main Information</p> -->
 	    </div>
 			<div id="customer" class="tab-content">
 				<h2>Customer</h2>
