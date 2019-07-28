@@ -6,13 +6,23 @@ class Order {
 	}
 
 	getOrders(hotel, date = this.currentDate) {
-		return hotel.roomServices.filter(service => service.date === date);
+		let orders = hotel.getTodaysRoomServices(date);
+		let bookings = hotel.getTodaysBookings(date);
+		let fullOrderInfo = orders.map(order => {
+			return {
+				user: hotel.users.find(user => user.id === order.userID).name,
+				room: bookings.find(booking => booking.userID === order.userID).roomNumber,
+				item: order.food,
+				price: order.totalCost
+				 };
+		});
+		return fullOrderInfo;
 	}
 
 	showOrders(hotel, date = this.currentDate) {
 		let currentOrders = this.getOrders(hotel, date);
 		return currentOrders.length ? 
-		domUpdates.defaultOrders(currentOrders) : 
+		domUpdates.defaultOrders(currentOrders, date) : 
 		domUpdates.defaultNoOrders(date);
 	}
 

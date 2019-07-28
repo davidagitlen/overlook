@@ -109,7 +109,7 @@ let mockData = {
      { userID: 9, date: '2019/07/25', roomNumber: 3 },
      { userID: 88, date: '2019/08/28', roomNumber: 4 },
      { userID: 52, date: '2019/07/25', roomNumber: 5 },
-     { userID: 34, date: '2019/09/05', roomNumber: 6 },
+     { userID: 8, date: '2019/08/02', roomNumber: 6 },
      { userID: 93, date: '2019/07/25', roomNumber: 7 },
      { userID: 98, date: '2019/08/27', roomNumber: 8 },
      { userID: 18, date: '2019/07/25', roomNumber: 9 },

@@ -44,9 +44,9 @@ let domUpdates = {
 		$('#customer').empty().append(customerAlert);
 	},
 
-	defaultOrders(orders) {
+	defaultOrders(orders, date) {
 		let ordersDefault = ``;
-		orders.forEach(order => ordersDefault += `<p>Order : </span>${order.food} <span>Price : </span> $${order.totalCost.toFixed(2)}</p>`);
+		orders.forEach(order => ordersDefault += `<p>On ${date} ${order.user} ordered ${order.item} for $${order.price.toFixed(2)}</p>`);
 		ordersDefault += `
 		<form>
 			<fieldset>

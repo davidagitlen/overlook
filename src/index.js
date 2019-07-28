@@ -24,11 +24,11 @@ let currentRoom = new Room();
 Promise.all([usersAPICall, roomsAPICall, bookingsAPICall, roomServicesAPICall])
   .then(values => Promise.all(values.map(value => value.json())))
   .then(finalData => {
-  	let users = finalData.find(data => data.hasOwnProperty('users'));
-  	let rooms = finalData.find(data => data.hasOwnProperty('rooms'))
-  	let bookings = finalData.find(data => data.hasOwnProperty('bookings'));
-  	let roomServices = finalData.find(data => data.hasOwnProperty('roomServices'));
-  	currentHotel = new Hotel(users.users, rooms.rooms, bookings.bookings, roomServices.roomServices, today);
+  	let users = finalData.find(data => data.hasOwnProperty('users')).users;
+  	let rooms = finalData.find(data => data.hasOwnProperty('rooms')).rooms;
+  	let bookings = finalData.find(data => data.hasOwnProperty('bookings')).bookings;;
+  	let roomServices = finalData.find(data => data.hasOwnProperty('roomServices')).roomServices;
+  	currentHotel = new Hotel(users, rooms, bookings, roomServices, today);
 	});
 
 $('.splash').show(0).delay(3000).hide(0);
@@ -43,7 +43,7 @@ $('#roomservice').on('keypress', handleOrderSearch);
 setTimeout(() => {
 	domUpdates.defaultMainTab(currentHotel);
 	currentOrder.showOrders(currentHotel);
-}, 3000)
+}, 3000);
 
 function getCurrentDate() {
 	let today = new Date();

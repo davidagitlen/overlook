@@ -11,7 +11,7 @@ const expect = chai.expect;
 const spy = chai.spy();
 
 let today = '2019/07/25';
-let todaysOrders = mockData.roomServices.filter(service => service.date === today);
+let todaysOrder = {user: 'Zachery Abbott', room: 6, item: 'Practical Granite Sandwich', price: 14.87};
 let hotel = new Hotel(mockData.users, mockData.rooms, mockData.bookings, mockData.roomServices, today);
 let order = new Order(today);
 
@@ -25,15 +25,15 @@ describe('Order', () => {
 	});
 
 	describe('getOrders', () => {
-		it('should find all of today\'s orders', () => {
-			expect(order.getOrders(hotel)).to.eql(todaysOrders);
+		it('should find all of today\'s orders and return them with relevant user/booking data', () => {
+			expect(order.getOrders(hotel, '2019/08/02')[0]).to.eql(todaysOrder);
 		});
 	});
 
 	describe('showOrders', () => {
 		chai.spy.on(domUpdates, ['defaultOrders', 'defaultNoOrders'], () => {})
 		it('should fire defaultOrders if there are orders for today', () => {
-			order.showOrders(hotel, today);
+			order.showOrders(hotel, '2019/08/02');
 			expect(domUpdates.defaultOrders).to.have.been.called(1);
 		});
 		it('should fire defaultNoOrders if there are no orders for today', () => {

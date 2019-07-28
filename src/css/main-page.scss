@@ -20,7 +20,7 @@ main {
 
 .splash {
 	@include dimensions(250px, 400px);
-	background-color: lighten($main-color, 70%);
+	background-color: lighten($main-color, 71%);
 	color: $main-color;
 	display: none;
 	margin: auto;
