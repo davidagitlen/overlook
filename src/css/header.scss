@@ -43,11 +43,12 @@ header {
 
 	& input {
 		@include dimensions(25px, 33%);
-		// margin: 0px 10px 0px 0px;
+		// margin: 0px 0px 0px 10px;
 		grid-area: b;
 		border: solid gray .5px;
 		border-radius: 2px;
 		font-size: 14px;
+		padding: 0px 0px 0px 10px;
 	}
 
 }

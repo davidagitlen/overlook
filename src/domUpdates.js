@@ -20,7 +20,7 @@ let domUpdates = {
 	displayUsers(users) {
 		let usersList = `<p>Please select one of the following customers:</p>`;
 		users.forEach(user => 
-			usersList += `<button class="user-list" data-user="${user.name}">${user.name}</button><br>`);
+			usersList += `<button class="user-list" id="user-list" data-user="${user.name}">${user.name}</button><br>`);
 		return usersList;
 	},
 
@@ -35,6 +35,27 @@ let domUpdates = {
 				<input type="text" id="new-customer-name" placeholder="Enter New Customer Name">
 			</fieldset>
 		</form>`;
+		return message;
+	},
+
+	displayCustomerName(e) {
+		let customerAlert = `
+		<p><span>Currently Viewing : </span>${e.target.dataset.user}</p>`
+		$('#customer').empty().append(customerAlert);
+	},
+
+	displayCustomerOrders(user, hotel, userOrders) {
+		console.log(user, userOrders)
+		let ordersList = `<p>Here are all of ${user.name}'s orders:<p>`;
+		userOrders.forEach(order => 
+			ordersList += `<p><span>Date : </span>${order.date} <span>Order : </span>${order.food} <span>Price : </span> $${order.totalCost.toFixed(2)}</p>`);
+		ordersList += `${user.name} has spent $${user.findMyTotal(hotel)} over the course of their stays at your hotel.`
+		return ordersList;
+	},
+
+	noOrdersFound() {
+		let message = `
+		<p> We didn't find any orders placed for that customer. </p>`
 		return message;
 	}
 
