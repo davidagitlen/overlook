@@ -2,10 +2,10 @@ import domUpdates from './domUpdates';
 
 class Hotel {
 	constructor(users, rooms, bookings, roomServices, today) {
-		this.users = users.users;
-		this.rooms = rooms.rooms;
-		this.bookings = bookings.bookings;
-		this.roomServices = roomServices.roomServices;
+		this.users = users;
+		this.rooms = rooms;
+		this.bookings = bookings;
+		this.roomServices = roomServices;
 		this.currentDate = today;
 	}
 
@@ -52,7 +52,9 @@ class Hotel {
 		let regex = new RegExp(`${name}`, 'gi');
 		let foundUsers = this.users.filter(user => 
 			user.name.match(regex));
-		return foundUsers.length ? domUpdates.displayUsers(foundUsers) : domUpdates.noUserFound();
+		return foundUsers.length ? 
+		domUpdates.displayUsers(foundUsers) : 
+		domUpdates.noUserFound();
 	}
 
 }

@@ -1,8 +1,8 @@
 import Hotel from '../src/Hotel';
 import mockData from '../src/mock-data';
+import domUpdates from '../src/domUpdates';
 import chai from 'chai';
 import spies from 'chai-spies';
-import domUpdates from '../src/domUpdates';
 
 chai.use(spies);
 
@@ -11,7 +11,7 @@ const spy = chai.spy();
 
 
 let today = '2019/07/25';
-let hotel = new Hotel(mockData, mockData, mockData, mockData, today);
+let hotel = new Hotel(mockData.users, mockData.rooms, mockData.bookings, mockData.roomServices, today);
 let evenRooms = mockData.rooms.filter(room => room.number % 2 === 0);
 let oddRooms = mockData.rooms.filter(room => room.number % 2);
 let oddRoomsBooked = mockData.bookings.filter(booking => booking.roomNumber % 2);

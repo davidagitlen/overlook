@@ -44,6 +44,33 @@ let domUpdates = {
 		$('#customer').empty().append(customerAlert);
 	},
 
+	defaultOrders(orders) {
+		let ordersDefault = ``;
+		orders.forEach(order => ordersDefault += `<p>Order : </span>${order.food} <span>Price : </span> $${order.totalCost.toFixed(2)}</p>`);
+		ordersDefault += `
+		<form>
+			<fieldset>
+				<legend>Find Another Date's Orders</legend>
+				<label for="new-date-orders">Search Orders on a Specific Date</label>
+				<input type="text" id="new-date-orders" placeholder="Enter New Date">
+			</fieldset>
+		</form>`;
+		$('#roomservice').append(ordersDefault);
+	},
+
+	defaultNoOrders(date) {
+		let noOrdersMessage = `<p>No orders placed for ${date}!</p>`;
+		noOrdersMessage += `
+		<form>
+			<fieldset>
+				<legend>Find Another Date's Orders</legend>
+				<label for="new-date-orders">Search Orders on a Specific Date</label>
+				<input type="text" id="new-date-orders" placeholder="Enter New Date">
+			</fieldset>
+		</form>`;
+		$('#roomservice').append(noOrdersMessage);
+	},
+
 	displayCustomerOrders(user, hotel, userOrders) {
 		console.log(user, userOrders)
 		let ordersList = `<p>Here are all of ${user.name}'s orders:<p>`;

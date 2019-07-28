@@ -18,7 +18,7 @@ let bookingsAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/
 let roomServicesAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/room-services/roomServices'); 
 let currentHotel = null;
 let currentCustomer = null;
-let currentOrder = new Order();
+let currentOrder = new Order(today);
 let currentRoom = new Room();
 
 Promise.all([usersAPICall, roomsAPICall, bookingsAPICall, roomServicesAPICall])
@@ -28,7 +28,7 @@ Promise.all([usersAPICall, roomsAPICall, bookingsAPICall, roomServicesAPICall])
   	let rooms = finalData.find(data => data.hasOwnProperty('rooms'))
   	let bookings = finalData.find(data => data.hasOwnProperty('bookings'));
   	let roomServices = finalData.find(data => data.hasOwnProperty('roomServices'));
-  	currentHotel = new Hotel(users, rooms, bookings, roomServices, today);
+  	currentHotel = new Hotel(users.users, rooms.rooms, bookings.bookings, roomServices.roomServices, today);
 	});
 
 $('.splash').show(0).delay(3000).hide(0);
@@ -41,9 +41,10 @@ $('#customer').on('keypress', enterNewCustomer);
 
 setTimeout(() => {
 	domUpdates.defaultMainTab(currentHotel);
+	currentOrder.showOrders(currentHotel);
 }, 3000)
 
-function	getCurrentDate() {
+function getCurrentDate() {
 	let today = new Date();
 	let year = today.getFullYear();
 	let month = String(today.getMonth() + 1).padStart(2, '0');
