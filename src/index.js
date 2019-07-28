@@ -11,11 +11,11 @@ import Room from './Room';
 import Order from './Order';
 import domUpdates from './domUpdates';
 
-let today = getCurrentDate();
 let usersAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users');
 let roomsAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms');
 let bookingsAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings');
 let roomServicesAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/room-services/roomServices'); 
+let today = getCurrentDate();
 let currentHotel = null;
 let currentCustomer = null;
 let currentOrder = new Order(today);
@@ -37,7 +37,8 @@ $('#main').show();
 $('#main-tab, #customer-tab, #room-tab, #roomservice-tab').on('click', showTabContent);
 $('#customer-name-field').on('keypress', handleCustomerSearch);
 $('#customer').on('click', handleCustomerClick);
-$('#customer').on('keypress', enterNewCustomer);
+$('#customer').on('keypress', handleCustomerKeypress);
+$('#roomservice').on('keypress', handleOrderSearch);
 
 setTimeout(() => {
 	domUpdates.defaultMainTab(currentHotel);
@@ -67,12 +68,22 @@ function handleCustomerSearch(e) {
 		let name = $('#customer-name-field').val();
 		console.log(name)
 		$('#customer').html(currentHotel.findCustomer(name));
+		$('#customer-name-field').val('');
 	}
 }
 
 function handleCustomerClick(e) {
-	if (e.target.id === "user-list") {
+	if (e.target.id === 'user-list') {
 		handleCustomerInstantiation(e)
+	}
+}
+
+function handleCustomerKeypress(e) {
+	if (e.which === 13 && e.target.id === 'user-list') {
+		handleCustomerInstantiation(e);
+	}
+	if (e.which === 13 && e.target.id === 'new-customer-name') {
+		enterNewCustomer(e);
 	}
 }
 
@@ -86,34 +97,33 @@ function instantiateCustomer(e) {
 	let customer = currentHotel.users.find(user => user.name === e.target.dataset.user);
 	currentCustomer = new Customer(customer.name, customer.id);
 	console.log('current customer instance', currentCustomer);
-	}
+}
 
 function enterNewCustomer(e) {
 	if (e.which === 13 && !$('#customer-name-field').val()) {
-		e.preventDefault()
+		e.preventDefault();
 	}
 	if (e.which === 13) {
-	e.preventDefault();
-	let brandNewCustomer = {id: currentHotel.users.length + 1, name: $('#new-customer-name').val()};
-	currentHotel.users.push(brandNewCustomer);
+		e.preventDefault();
+		let brandNewCustomer = {id: currentHotel.users.length + 1, name: $('#new-customer-name').val()};
+		currentHotel.users.push(brandNewCustomer);
+		$('#new-customer-name').attr("data-user", $('#new-customer-name').val());
+		handleCustomerInstantiation(e);
 	console.log(currentHotel.users)
 	}
 }
-// function displayCurrentDate() {
-// 	let today = new Date();
-// 	let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-// 	return today.toLocaleDateString('en-US', options);
-// }
 
-
-// function defaultMainTab() {
-// 	let mainDefault = `
-// 	<p>${displayCurrentDate()}</p>
-// 	<p><span>Total Unoccupied Rooms : </span>${currentHotel.getUnoccupiedRooms().length}<p>
-// 	<p><span>Total Revenue : </span>$${currentHotel.getTotalRevenue()}</p>
-// 	<p><span>Percentage of Rooms Occupied : </span> ${currentHotel.getPercentageOccupied()}%`;
-// 	$('#main').html(mainDefault)
-// }
+function handleOrderSearch(e) {
+	if (e.which === 13 && !$('#new-date-orders').val()) {
+		e.preventDefault();
+	}
+	if (e.which === 13) {
+		e.preventDefault();
+		let orderDate = $('#new-date-orders').val();
+		$('#roomservice').empty();
+		currentOrder.showOrders(currentHotel, orderDate);
+	}
+}
 
 console.log(today)
 setTimeout(() => {

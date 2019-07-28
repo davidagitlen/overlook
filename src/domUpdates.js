@@ -52,7 +52,7 @@ let domUpdates = {
 			<fieldset>
 				<legend>Find Another Date's Orders</legend>
 				<label for="new-date-orders">Search Orders on a Specific Date</label>
-				<input type="text" id="new-date-orders" placeholder="Enter New Date">
+				<input type="text" id="new-date-orders" placeholder="yyyy/mm/dd">
 			</fieldset>
 		</form>`;
 		$('#roomservice').append(ordersDefault);
@@ -65,7 +65,7 @@ let domUpdates = {
 			<fieldset>
 				<legend>Find Another Date's Orders</legend>
 				<label for="new-date-orders">Search Orders on a Specific Date</label>
-				<input type="text" id="new-date-orders" placeholder="Enter New Date">
+				<input type="text" id="new-date-orders" placeholder="yyyy/mm/dd">
 			</fieldset>
 		</form>`;
 		$('#roomservice').append(noOrdersMessage);

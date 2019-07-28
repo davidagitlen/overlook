@@ -10,7 +10,7 @@ $order-color: #960B0B;
 }
 
 .tab-content {
-	@include dimensions(72vh, 94.5%)
+	@include dimensions(72vh, 95.5%);
 	padding: 25px;
 	border: $border-style;
 

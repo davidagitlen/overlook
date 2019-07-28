@@ -7,7 +7,7 @@ $main-color: #00008B;
 }
 
 body {
-  @include dimensions(100%, 100%);
+  @include dimensions(100%, 98%);
 	font-family: 'IBM Plex Sans', 'Arial', sans-serif; 
 	color: #303030;
   background-color: $primary-background;
@@ -33,4 +33,5 @@ main {
 	& h2 {
 		margin: 75px 0px 10px 0px;
 	}
+
 }
