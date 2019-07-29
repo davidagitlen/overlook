@@ -33,15 +33,15 @@ describe('Hotel', () => {
 		expect(hotel.roomServices).to.eql(mockData.roomServices);
 	});
 
-	describe('getTodaysBookings', () => {
+	describe('getBookingsByDate', () => {
 		it('should return today\'s booked rooms', () => {
-			expect(hotel.getTodaysBookings('2019/07/25')).to.eql(oddRoomsBooked);
+			expect(hotel.getBookingsByDate('2019/07/25')).to.eql(oddRoomsBooked);
 		});
 	});
 
-	describe('getTodaysRoomServices', () => {
+	describe('getRoomServicesByDate', () => {
 		it('should return room services ordered today', () => {
-			expect(hotel.getTodaysRoomServices('2019/07/25')).to.eql(mockData.roomServices.slice(0,3));
+			expect(hotel.getRoomServicesByDate('2019/07/25')).to.eql(mockData.roomServices.slice(0,3));
 		});
 	});
 

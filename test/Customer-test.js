@@ -32,20 +32,20 @@ describe('Customer', () => {
 	});
 
 	describe('showMyOrders', () => {
-		chai.spy.on(domUpdates, ['displayCustomerOrders', 'noOrdersFound'], () => {});
+		chai.spy.on(domUpdates, ['displayCustomerOrders', 'noCustomerOrdersFound'], () => {});
 		it('should fire displayCustomerOrders when a customer has placed orders', () => {
 			customer.showMyOrders(hotel);
 			expect(domUpdates.displayCustomerOrders).to.have.been.called(1);
 		});
 		it('should fire noOrdersFound when a customer has never placed an order', () => {
 			anotherCustomer.showMyOrders(hotel);
-			expect(domUpdates.noOrdersFound).to.have.been.called(1);
+			expect(domUpdates.noCustomerOrdersFound).to.have.been.called(1);
 		});
 	});
 
-	describe('findMyTotal', () => {
+	describe('findMyOrdersTotal', () => {
 		it('should show customer\'s all-time total for room service orders', () => {
-			expect(customer.findMyTotal(hotel)).to.equal('38.37')
+			expect(customer.findMyOrdersTotal(hotel)).to.equal('38.37')
 		});
 	});
 

@@ -14,7 +14,7 @@ class Customer {
 	showMyOrders(hotel) {
 		let myOrders = this.findMyOrders(hotel);
 		return myOrders.length ? 
-		domUpdates.displayCustomerOrders(this, hotel, myOrders) : 
+		domUpdates.displayCustomerOrders(this, hotel, myOrders) :
 		domUpdates.noCustomerOrdersFound();
 	}
 
