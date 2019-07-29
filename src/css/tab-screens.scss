@@ -18,12 +18,21 @@ $order-color: #960B0B;
 	@include dimensions(72vh, 95.5%);
 	padding: 25px;
 	border: $border-style;
+	overflow: scroll;
 
 	&#main {
 		border-color: $main-color;
 
+		& div {
+			@include dimensions(300px, 500px);
+			border: solid 1px gray;
+			background-color: rgba(211, 211, 211, .3);
+			padding: 10px;
+		}
+
 		& p {
 			line-height: 2;
+			opacity: 1;
 		}
 
 		& span {
@@ -38,11 +47,28 @@ $order-color: #960B0B;
 
 	&#customer {
 		border-color: $customer-color;
+		line-height: 2;
 
 		& p,
 		h2 {
 			font-size: 22px;
 			line-height: 2;
+		}
+
+		& form {
+			// line-height:
+
+			& legend {
+				display: none;
+			}
+
+			& input {
+				@include dimensions(25px, 200px);
+				min-width: 200px;
+				border: solid gray .5px;
+				border-radius: 2px;
+				margin: 0px 0px 0px 10px;
+			}
 		}
 
 		& button {
@@ -66,6 +92,41 @@ $order-color: #960B0B;
 
 	&#room {
 		border-color: $room-color;
+
+		& #user-bookings {
+			@include dimensions(300px, 400px);
+			overflow: scroll;
+			border: solid 1px gray;
+			background-color: rgba(211, 211, 211, .3);
+			padding: 10px;
+		}
+
+		& #room-list {
+			@include dimensions(300px, 450px);
+			line-height: 1.5;
+			overflow: scroll;
+			border: solid 1px gray;
+			background-color: rgba(211, 211, 211, .3);
+			padding: 10px;
+
+			& button {
+				@include button-border(.5px solid transparent, 10px);
+				background: none;
+				font-size: 16px;
+
+				&:hover {
+					font-style: italic;
+					color: red;
+				}			
+				
+				&:focus {
+					outline: none;
+					@include button-border(.5px solid blue, 10px);
+				}
+
+			}
+
+		}
 
 		& p {
 			font-size: 16px;

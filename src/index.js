@@ -38,7 +38,8 @@ $('#main-tab, #customer-tab, #room-tab, #roomservice-tab').on('click', showTabCo
 $('#customer-name-field').on('keypress', handleCustomerSearch);
 $('#customer').on('click', handleCustomerClick);
 $('#customer').on('keypress', handleCustomerKeypress);
-$('#room').on('keypress', handleRoomKeypress);
+$('#room').on('keypress', handleRoomInput);
+$('#room').on('click', handleRoomInput);
 $('#roomservice').on('keypress', handleOrderSearch);
 
 setTimeout(() => {
@@ -101,19 +102,47 @@ function handleOrderSearch(e) {
 	}
 }
 
-function handleRoomKeypress(e) {
-	if (e.which === 13 && !$('#new-date-bookings').val()) {
+function handleRoomInput(e) {
+	if (e.which === 13 && e.target.id === "new-date-bookings" && !$('#new-date-bookings').val()) {
 		e.preventDefault();
 	}
-	if (e.which === 13) {
+	if (e.which === 13 && e.target.id === "new-date-bookings") {
 		e.preventDefault();
-		let bookingsDate = $('#new-date-bookings').val();
-		$('#bookings-dropdown').remove();
-		let roomsAvailable = currentHotel.getUnoccupiedRooms(bookingsDate);
-		domUpdates.displayAvailableRoomsByDate(bookingsDate, roomsAvailable);
-		$('#new-date-bookings').val('');
+		displayAvailableRooms(e);
 	}
+	if ((e.which === 13 || 1 || 2 || 3) && e.target.id === "booking-button") {
+		console.log(e.target.id)
+		openRoomFilterForm(e);
+	}
+	if ((e.which === 13 || 1 || 2 || 3) && e.target.type === "radio") {
+		console.log(e.target);
+		$('#filter-room-type').attr("data-room", e.target.value);
+	}
+	if ((e.which === 13 || 1 || 2 || 3)	 && e.target.id === "filter-room-type") {
+		e.preventDefault();
+		let roomsAvailable = currentHotel.getUnoccupiedRooms();
+		let desiredRoom = e.target.dataset.room;
+		let filteredRoomsAvailable = roomsAvailable.filter(room => room.roomType === desiredRoom)
+		filteredRoomsAvailable.length ? 
+		domUpdates.displayFilteredRooms(filteredRoomsAvailable) : 
+		domUpdates.displayRoomTypeUnavailable(roomsAvailable);
+		console.log(filteredRoomsAvailable)
+	}
+}
 
+function openRoomFilterForm(e) {
+	e.preventDefault();
+	domUpdates.displayRoomFilter();
+	$('#booking-button').hide();
+}
+
+function displayAvailableRooms(e) {
+	e.preventDefault();
+	let bookingsDate = $('#new-date-bookings').val();
+	$('#bookings-dropdown').remove();
+	let roomsAvailable = currentHotel.getUnoccupiedRooms(bookingsDate);
+	domUpdates.displayAvailableRoomsByDate(bookingsDate, roomsAvailable);
+	$('#new-date-bookings').val('');
 }
 
 function handleCustomerInstantiation(e) {
@@ -142,10 +171,3 @@ function enterNewCustomer(e) {
 	console.log(currentHotel.users)
 	}
 }
-
-console.log(today)
-setTimeout(() => {
-	console.log(currentHotel)
-}, 2000)
-
- 

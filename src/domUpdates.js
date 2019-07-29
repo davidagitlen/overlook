@@ -10,10 +10,12 @@ let domUpdates = {
 
 	defaultMainTab(hotel) {
 		let mainDefault = `
+		<div>
 		<p id="current-date">${this.displayCurrentDate()}</p>
 		<p id="unoccupied-rooms"><span>Total Unoccupied Rooms : </span>${hotel.getUnoccupiedRooms().length}<p>
 		<p id="total-revenue"><span>Total Revenue : </span>$${hotel.getTotalRevenue()}</p>
-		<p id="occupied-perc"><span>Percentage of Rooms Occupied : </span> ${hotel.getPercentageOccupied()}%`;
+		<p id="occupied-perc"><span>Percentage of Rooms Occupied : </span> ${hotel.getPercentageOccupied()}%</p>
+		</div>`;
 		$('#main').html(mainDefault)
 	}, 
 
@@ -28,11 +30,11 @@ let domUpdates = {
 		let message = `
 		<p> We didn't find a current customer with that name.</p>
 		<p> Please use the form below to enter them into the system</p>
-		<form>
+		<form autocomplete="off">
 			<fieldset>
 				<legend>New Customer Entry</legend>
 				<label for="new-customer-name">New Customer Name</label>
-				<input type="text" id="new-customer-name" placeholder="Enter New Customer Name">
+				<input type="text" id="new-customer-name" placeholder="Enter New Customer Name" autocomplete="off">
 			</fieldset>
 		</form>`;
 		return message;
@@ -115,9 +117,15 @@ let domUpdates = {
 
 	displayCustomerBookings(user, hotel, userBookings) {
 		let sortedBookings = userBookings.sort((a, b) => parseInt(a.date.slice(-5,-3) + a.date.slice(-2)) - parseInt(b.date.slice(-5,-3) + b.date.slice(-2)));
-		let bookingsList = `<p>Here are all of ${user.name}'s bookings:<p>`;
+		let bookingsList = `
+		<div id="user-bookings">
+		<p>Here are all of ${user.name}'s bookings:<p>`;
 		sortedBookings.forEach(booking => 
 			bookingsList += `<p><span>Date : </span>${booking.date} <span> Room : </span>${booking.roomNumber}</p>`);
+		bookingsList += `</div>`
+		if (!sortedBookings.find(booking => booking.date === hotel.currentDate)) {
+			bookingsList += '<button id="booking-button">New Booking</button>';
+		}
 		return bookingsList;
 	},
 
@@ -125,7 +133,52 @@ let domUpdates = {
 		let noCustomerBookingsMessage = `
 		<p> We didn't find any bookings for that customer. </p>`;
 		return noCustomerBookingsMessage;
+	},
+
+	displayRoomFilter() {
+		let filterMenu = `
+				<form id="room-filter-form">
+					<fieldset>
+					<legend>Select Room Type</legend>
+					<p>Please select the desired room type</p>
+					<input type="radio" id="single-room" value="single room" name="room-type" tabindex = "0">
+					<label for="single-room" tabindex = "0">Single Room</label>
+					<input type="radio" id="junior-suite" value="junior suite" name="room-type" tabindex = "0">
+					<label for="junior-suite" tabindex = "0">Junior Suite</label>
+					<input type="radio" id="suite" value="suite" name="room-type" tabindex = "0">
+					<label for="suite" tabindex = "0">Suite</label>
+					<input type="radio" id="residential-suite" value="residential suite" name="room-type" tabindex = "0">
+					<label for="residential-suite" tabindex = "0">Residential Suite</label>
+					<button id="filter-room-type" tabindex = "0">Filter Rooms</button>
+					</fieldset>
+				</form>`;
+		$('#room').append(filterMenu);
+	},
+
+	displayFilteredRooms(rooms) {
+		let roomList = `
+		<div id="room-list">
+		<p> We found the following rooms of that type available today: </p>`;
+		rooms.forEach(room => {
+			let bedMessage = room.numBeds > 1 ? ` with ${room.numBeds} ${room.bedSize} beds` : ` with 1 ${room.bedSize} bed`;
+			let bidetMessage = room.bidet === true ? `and a bidet.` : `without a bidet.`;
+			roomList += `<button data-number="${room.number}"> Room ${room.number}, a ${room.roomType}, ${bedMessage}, ${bidetMessage}</button>`
+		});
+		roomList += `</div>`;
+		$('#room').append(roomList); 
+	},
+
+	displayRoomTypeUnavailable(rooms) {
+		let roomTypeUnavailableList = `
+		<p> Unfortunately no rooms of that type are available, here is a list of the available rooms</p>`;
+		rooms.forEach(room => {
+			let bedMessage = room.numBeds > 1 ? ` with ${room.numBeds} ${room.bedSize} beds` : ` with 1 ${room.bedSize} bed`;
+			let bidetMessage = room.bidet === true ? `with a bidet.` : `without a bidet.`;
+			roomList += `<p> Room ${room.roomNumber}, a ${room.roomType}, with ${bedMessage} ${bidetMessage}`
+		});
+		$('#room').append(roomTypeUnavailableList);
 	}
+
 
 }
 
