@@ -15,14 +15,25 @@ class Customer {
 		let myOrders = this.findMyOrders(hotel);
 		return myOrders.length ? 
 		domUpdates.displayCustomerOrders(this, hotel, myOrders) : 
-		domUpdates.noOrdersFound();
+		domUpdates.noCustomerOrdersFound();
 	}
 
-	findMyTotal(hotel) {
+	findMyOrdersTotal(hotel) {
 		return this.findMyOrders(hotel).reduce((tab, order) =>
 			tab + order.totalCost, 0).toFixed(2)
 	}
 
+	findMyBookings(hotel) {
+		return hotel.bookings.filter(booking => 
+			booking.userID === this.id);
+	}
+
+	showMyBookings(hotel) {
+		let myBookings = this.findMyBookings(hotel);
+		return myBookings.length ? 
+		domUpdates.displayCustomerBookings(this, hotel, myBookings) :
+		domUpdates.noCustomerBookingsFound();
+	}
 
 }
 

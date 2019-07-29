@@ -9,30 +9,30 @@ class Hotel {
 		this.currentDate = today;
 	}
 
-	getTodaysBookings(date = this.currentDate) {
+	getBookingsByDate(date = this.currentDate) {
 		return this.bookings.filter(booking => booking.date === date);
 	}
 
-	getTodaysRoomServices(date = this.currentDate) {
+	getRoomServicesByDate(date = this.currentDate) {
 		return this.roomServices.filter(service => service.date === date);
 	}
 
 	getOccupiedRooms(date = this.currentDate) {
-		let todaysBookings = this.getTodaysBookings(date);
+		let todaysBookings = this.getBookingsByDate(date);
 		let takenRooms = this.rooms.filter(room => 
 			todaysBookings.some(booking => booking.roomNumber === room.number));
 		return takenRooms;
 	}
 
 	getUnoccupiedRooms(date = this.currentDate) {
-		let todaysBookings = this.getTodaysBookings(date);
+		let todaysBookings = this.getBookingsByDate(date);
 		let availableRooms = this.rooms.filter(room => 
 			!todaysBookings.some(booking => booking.roomNumber === room.number));
 		return availableRooms;
 	}
 
 	getTotalRevenue(date = this.currentDate) {
-		let todaysRoomServices = this.getTodaysRoomServices(date);
+		let todaysRoomServices = this.getRoomServicesByDate(date);
 		let takenRooms = this.getOccupiedRooms(date);
 		let roomServicesTotal = todaysRoomServices.reduce((tab, service) => {
 			return tab + service.totalCost;
@@ -44,7 +44,7 @@ class Hotel {
 	}
 
 	getPercentageOccupied(date = this.currentDate) {
-		let todaysBookings = this.getTodaysBookings(date);
+		let todaysBookings = this.getBookingsByDate(date);
 		return (todaysBookings.length/this.rooms.length).toFixed(2) * 100
 	}
 

@@ -9,6 +9,11 @@ $order-color: #960B0B;
 	width: $width;
 }
 
+@mixin button-border($border, $border-radius) {
+	border: $border;
+	border-radius: $border-radius;
+}
+
 .tab-content {
 	@include dimensions(72vh, 95.5%);
 	padding: 25px;
@@ -16,18 +21,75 @@ $order-color: #960B0B;
 
 	&#main {
 		border-color: $main-color;
+
+		& p {
+			line-height: 2;
+		}
+
+		& span {
+			font-weight: bold;
+		}
+
+		& #current-date {
+			font-size: 26px;
+		}
+
 	}
 
 	&#customer {
 		border-color: $customer-color;
+
+		& p,
+		h2 {
+			font-size: 22px;
+			line-height: 2;
+		}
+
+		& button {
+			@include button-border(.5px solid gainsboro, 10px);
+			font-size: 16px;
+			margin: 0px 0px 10px 0px;
+
+			&:hover {
+				font-style: italic;
+				color: red;
+			}
+
+			&:focus {
+				outline: none;
+				@include button-border(.5px solid blue, 10px);
+			}
+
+		}
+
 	}
 
 	&#room {
 		border-color: $room-color;
+
+		& p {
+			font-size: 16px;
+			line-height: 1.5;
+		}
+
+		& span {
+			font-weight: bold;
+			margin: 0px 10px 0px 20px;
+		}
 	}
 
 	&#roomservice {
 		border-color: $order-color;
+
+		& p {
+			font-size: 16px;
+			line-height: 2;
+		}
+
+		& span {
+			font-weight: bold;
+			margin: 0px 10px 0px 20px;
+		}
 	}	
 
 }

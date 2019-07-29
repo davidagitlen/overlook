@@ -38,11 +38,13 @@ $('#main-tab, #customer-tab, #room-tab, #roomservice-tab').on('click', showTabCo
 $('#customer-name-field').on('keypress', handleCustomerSearch);
 $('#customer').on('click', handleCustomerClick);
 $('#customer').on('keypress', handleCustomerKeypress);
+$('#room').on('keypress', handleRoomKeypress);
 $('#roomservice').on('keypress', handleOrderSearch);
 
 setTimeout(() => {
 	domUpdates.defaultMainTab(currentHotel);
 	currentOrder.showOrders(currentHotel);
+	currentRoom.showPolarDates(currentHotel);
 }, 3000);
 
 function getCurrentDate() {
@@ -87,10 +89,38 @@ function handleCustomerKeypress(e) {
 	}
 }
 
+function handleOrderSearch(e) {
+	if (e.which === 13 && !$('#new-date-orders').val()) {
+		e.preventDefault();
+	}
+	if (e.which === 13) {
+		e.preventDefault();
+		let orderDate = $('#new-date-orders').val();
+		$('#roomservice').empty();
+		currentOrder.showOrders(currentHotel, orderDate);
+	}
+}
+
+function handleRoomKeypress(e) {
+	if (e.which === 13 && !$('#new-date-bookings').val()) {
+		e.preventDefault();
+	}
+	if (e.which === 13) {
+		e.preventDefault();
+		let bookingsDate = $('#new-date-bookings').val();
+		$('#bookings-dropdown').remove();
+		let roomsAvailable = currentHotel.getUnoccupiedRooms(bookingsDate);
+		domUpdates.displayAvailableRoomsByDate(bookingsDate, roomsAvailable);
+		$('#new-date-bookings').val('');
+	}
+
+}
+
 function handleCustomerInstantiation(e) {
 	instantiateCustomer(e);
 	domUpdates.displayCustomerName(e);
 	$('#roomservice').html(currentCustomer.showMyOrders(currentHotel));
+	$('#room').html(currentCustomer.showMyBookings(currentHotel));
 }
 
 function instantiateCustomer(e) {
@@ -113,19 +143,9 @@ function enterNewCustomer(e) {
 	}
 }
 
-function handleOrderSearch(e) {
-	if (e.which === 13 && !$('#new-date-orders').val()) {
-		e.preventDefault();
-	}
-	if (e.which === 13) {
-		e.preventDefault();
-		let orderDate = $('#new-date-orders').val();
-		$('#roomservice').empty();
-		currentOrder.showOrders(currentHotel, orderDate);
-	}
-}
-
 console.log(today)
 setTimeout(() => {
 	console.log(currentHotel)
 }, 2000)
+
+ 

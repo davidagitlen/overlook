@@ -46,7 +46,7 @@ let domUpdates = {
 
 	defaultOrders(orders, date) {
 		let ordersDefault = ``;
-		orders.forEach(order => ordersDefault += `<p>On ${date} ${order.user} ordered ${order.item} for $${order.price.toFixed(2)}</p>`);
+		orders.forEach(order => ordersDefault += `<p>On ${date} ${order.user} ordered one ${order.item} for $${order.price.toFixed(2)}</p>`);
 		ordersDefault += `
 		<form>
 			<fieldset>
@@ -76,14 +76,55 @@ let domUpdates = {
 		let ordersList = `<p>Here are all of ${user.name}'s orders:<p>`;
 		userOrders.forEach(order => 
 			ordersList += `<p><span>Date : </span>${order.date} <span>Order : </span>${order.food} <span>Price : </span> $${order.totalCost.toFixed(2)}</p>`);
-		ordersList += `${user.name} has spent $${user.findMyTotal(hotel)} over the course of their stays at your hotel.`
+		ordersList += `<p>${user.name} has spent $${user.findMyOrdersTotal(hotel)} on room service over the course of their stays at your hotel.</p>`
 		return ordersList;
 	},
 
-	noOrdersFound() {
-		let message = `
+	noCustomerOrdersFound() {
+		let noCustomerOrdersMessage = `
 		<p> We didn't find any orders placed for that customer. </p>`
-		return message;
+		return noCustomerOrdersMessage;
+	},
+
+	defaultRoomTab(best, worst) {
+		let bookingsMessage = `
+		<p>The most popular recent date at your hotel was ${best.date} with ${best.bookings} bookings.</p><br>
+		<p> The least popular recent date at your hotel was ${worst.date} with ${worst.bookings} bookings.</p>
+		<form id="bookings-search">
+			<fieldset>
+				<legend>Find Another Date's Bookings</legend>
+				<label for="new-date-bookings">Search Bookings on a Specific Date</label>
+				<input type="text" id="new-date-bookings" placeholder="yyyy/mm/dd">
+			</fieldset>
+		</form>`
+		$('#room').append(bookingsMessage);
+	},
+
+	displayAvailableRoomsByDate(date, rooms) {
+		let roomsAvailableMessage = `
+		<div id="bookings-dropdown">
+		<p>The following rooms are available on ${date}</p>
+		<select id="rooms-by-date">
+			<option>Available Rooms</option>`;
+		rooms.forEach(room => 
+			roomsAvailableMessage += `<option value="">Room Number ${room.number}</option>`);
+		roomsAvailableMessage += `</select>
+		</div>`
+		$('#bookings-search').append(roomsAvailableMessage);
+	}, 
+
+	displayCustomerBookings(user, hotel, userBookings) {
+		let sortedBookings = userBookings.sort((a, b) => parseInt(a.date.slice(-5,-3) + a.date.slice(-2)) - parseInt(b.date.slice(-5,-3) + b.date.slice(-2)));
+		let bookingsList = `<p>Here are all of ${user.name}'s bookings:<p>`;
+		sortedBookings.forEach(booking => 
+			bookingsList += `<p><span>Date : </span>${booking.date} <span> Room : </span>${booking.roomNumber}</p>`);
+		return bookingsList;
+	},
+
+	noCustomerBookingsFound() {
+		let noCustomerBookingsMessage = `
+		<p> We didn't find any bookings for that customer. </p>`;
+		return noCustomerBookingsMessage;
 	}
 
 }

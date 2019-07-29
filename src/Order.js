@@ -6,8 +6,8 @@ class Order {
 	}
 
 	getOrders(hotel, date = this.currentDate) {
-		let orders = hotel.getTodaysRoomServices(date);
-		let bookings = hotel.getTodaysBookings(date);
+		let orders = hotel.getRoomServicesByDate(date);
+		let bookings = hotel.getBookingsByDate(date);
 		let fullOrderInfo = orders.map(order => {
 			return {
 				user: hotel.users.find(user => user.id === order.userID).name,

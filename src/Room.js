@@ -1,9 +1,39 @@
+import domUpdates from './domUpdates';
+
 class Room {
 	constructor() {
-
 	}
 
-	
+	findMostPopularDate(hotel) {
+		let allDates = [...new Set(hotel.bookings.map(booking => booking.date))];
+		return allDates.reduce((bookings, day) =>{
+			let stays = hotel.getBookingsByDate(day).length;
+			if (stays > bookings.bookings) {
+				bookings.date = day;
+				bookings.bookings = stays;
+			}
+			return bookings;
+		}, {date: null, bookings: 0});
+	}
+
+	findLeastPopularDate(hotel) {
+		let allDates = [...new Set(hotel.bookings.map(booking => booking.date))];
+		return allDates.reduce((bookings, day) => {
+			let stays = hotel.getBookingsByDate(day).length;
+			if (stays <= bookings.bookings) {
+				bookings.date = day;
+				bookings.bookings = stays;
+			}
+			return bookings;
+		}, {date: null, bookings: 50});
+	}
+
+	showPolarDates(hotel) {
+		let bestDate = this.findMostPopularDate(hotel);
+		let worstDate = this.findLeastPopularDate(hotel);
+		domUpdates.defaultRoomTab(bestDate, worstDate);
+	}
+
 }
 
 export default Room;
