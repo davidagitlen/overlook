@@ -13,6 +13,7 @@ const spy = chai.spy();
 let today = '2019/07/25';
 let room = new Room();
 let hotel = new Hotel(mockData.users, mockData.rooms, mockData.bookings, mockData.roomServices, today);
+let newBooking = { userID: 12, date: '2019/10/25', roomNumber: 12 };
 
 
 describe('Room', () => {
@@ -44,11 +45,19 @@ describe('Room', () => {
 		});
 	});
 
+	describe('storeUnconfirmedBookings', () => {
+		it('should put new bookings into order\'s unconfirmed bookings array', () => {
+			expect(room.unconfirmedBookings.length).to.equal(0);
+			room.storeUnconfirmedBookings(newBooking);
+			expect(room.unconfirmedBookings.length).to.equal(1);
+			expect(room.unconfirmedBookings[0]).to.eql(newBooking);
+		});
+	});
+
 	describe('makeNewBooking', () => {
-		it('should put a new booking in hotel\'s bookings array', () => {
+		it('should push new bookings into hotel\'s bookings array', () => {
 			expect(hotel.bookings.length).to.equal(15);
-			let newBooking = { userID: 12, date: '2019/10/25', roomNumber: 12 };
-			room.makeNewBooking(hotel, newBooking);
+			room.makeNewBooking(hotel);
 			expect(hotel.bookings.length).to.equal(16);
 			expect(hotel.bookings[15]).to.eql(newBooking);
 		});

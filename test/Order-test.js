@@ -45,10 +45,19 @@ describe('Order', () => {
 		});
 	});
 
+	describe('storeUnconfirmedOrders', () => {
+		it('should push a new order into order\'s unconfirmedOrders array', () => {
+			expect(order.unconfirmedOrders.length).to.equal(0);
+			order.storeUnconfirmedOrders(hotel, customer, customerOrder);
+			expect(order.unconfirmedOrders.length).to.equal(1);
+			expect(order.unconfirmedOrders[0]).to.eql({userID: 51, date: '2019/07/25', food: 'sammich', totalCost: 200});
+		});
+	});
+
 	describe('placeNewOrder', () => {
-		it('should push a new order into hotel\'s roomServices array', () => {
+		it('should push orders into hotel\'s roomServices array', () => {
 			expect(hotel.roomServices.length).to.equal(14);
-			order.placeNewOrder(hotel, customer, customerOrder);
+			order.placeNewOrder(hotel);
 			expect(hotel.roomServices.length).to.equal(15);
 			expect(hotel.roomServices[14]).to.eql({userID: 51, date: '2019/07/25', food: 'sammich', totalCost: 200});
 		});

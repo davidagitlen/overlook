@@ -27,11 +27,11 @@ let domUpdates = {
 		let ordersDefault = ``;
 		orders.forEach(order => ordersDefault += `<p>On ${date} ${order.user} ordered one ${order.item} for $${order.price.toFixed(2)}</p>`);
 		ordersDefault += `
-		<form>
+		<form autocomplete="off">
 			<fieldset>
 				<legend>Find Another Date's Orders</legend>
 				<label for="new-date-orders">Search Orders on a Specific Date</label>
-				<input type="text" id="new-date-orders" placeholder="yyyy/mm/dd">
+				<input type="text" id="new-date-orders" placeholder="yyyy/mm/dd" autocomplete="off">
 			</fieldset>
 		</form>`;
 		$('#roomservice').append(ordersDefault);
@@ -40,11 +40,11 @@ let domUpdates = {
 	defaultNoOrders(date) {
 		let noOrdersMessage = `<p>No orders placed for ${date}!</p>`;
 		noOrdersMessage += `
-		<form>
+		<form autocomplete="off">
 			<fieldset>
 				<legend>Find Another Date's Orders</legend>
 				<label for="new-date-orders">Search Orders on a Specific Date</label>
-				<input type="text" id="new-date-orders" placeholder="yyyy/mm/dd">
+				<input type="text" id="new-date-orders" placeholder="yyyy/mm/dd" autocomplete="off">
 			</fieldset>
 		</form>`;
 		$('#roomservice').append(noOrdersMessage);
@@ -57,7 +57,7 @@ let domUpdates = {
 		// ordersList += `<p>${user.name} has spent $${user.findMyOrdersTotal(hotel)} on room service over the course of their stays at your hotel.</p>`
 		// return ordersList;
 		let ordersTable = `
-		<table>
+		<table id="user-orders">
 			<thead>
 				<tr>
 					<th colspan="3">Here are all of ${user.name}'s orders:</th>
@@ -133,7 +133,9 @@ let domUpdates = {
 
 	noCustomerBookingsFound() {
 		let noCustomerBookingsMessage = `
-		<p> We didn't find any bookings for that customer. </p>`;
+		<p> We didn't find any bookings for that customer. </p>
+		<button id="booking-button">Make New Booking</button>`;
+
 		return noCustomerBookingsMessage;
 	}
 

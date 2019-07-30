@@ -2,6 +2,7 @@ import domUpdates from './domUpdates';
 
 class Room {
 	constructor() {
+		this.unconfirmedBookings = [];
 	}
 
 	findMostPopularDate(hotel) {
@@ -34,15 +35,13 @@ class Room {
 		domUpdates.defaultRoomTab(bestDate, worstDate);
 	}
 
-	makeNewBooking(hotel, booking) {
-		hotel.bookings.push(booking);
+	storeUnconfirmedBookings(booking) {
+		this.unconfirmedBookings.push(booking);
 	}
 
-	cancelBooking(hotel, cancellation) {
-		console.log(hotel.bookings)
-		let revisedBookings = hotel.bookings.filter(booking => (booking.userID !== cancellation.userID && booking.date !== cancellation.date && booking.roomNumber !== cancellation.roomNumber));
-		console.log(revisedBookings)
-		hotel.bookings = revisedBookings;
+	makeNewBooking(hotel) {
+		this.unconfirmedBookings.forEach(booking => hotel.bookings.push(booking));
+		console.log('hotel bookings', hotel.bookings);
 	}
 
 }

@@ -3,6 +3,7 @@ import domUpdates from './domUpdates';
 class Order {
 	constructor(today) {
 		this.currentDate = today;
+		this.unconfirmedOrders = [];
 	}
 
 	getOrders(hotel, date = this.currentDate) {
@@ -26,9 +27,13 @@ class Order {
 		domUpdates.defaultNoOrders(date);
 	}
 
-	placeNewOrder(hotel, customer, order) {
-		let newOrder = {userID: customer.id, date: hotel.currentDate, food: order.food, totalCost: order.price};
-		hotel.roomServices.push(newOrder);
+	storeUnconfirmedOrders(hotel, customer, order) {
+		let unconfirmedOrder = {userID: customer.id, date: hotel.currentDate, food: order.food, totalCost: parseInt(order.price)};
+		this.unconfirmedOrders.push(unconfirmedOrder);
+	}
+
+	placeNewOrder(hotel) {
+		this.unconfirmedOrders.forEach(order => hotel.roomServices.push(order));
 	}
 
 }

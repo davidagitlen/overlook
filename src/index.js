@@ -44,6 +44,7 @@ $('#roomservice').on('click', handleNewOrder);
 
 setTimeout(() => {
 	defaultMainTab(currentHotel);
+	$('#customer-name-field').attr("disabled", false)
 	currentOrder.showOrders(currentHotel);
 	currentRoom.showPolarDates(currentHotel);
 }, 3000);
@@ -131,6 +132,7 @@ function handleRoomInput(e) {
 		openRoomFilterForm(e);
 	}
 	if ((e.which === 13 || 1 || 2 || 3) && e.target.type === "radio") {
+		$('#filter-room-type').attr("disabled", false);
 		$('#filter-room-type').attr("data-room", e.target.value);
 	}
 	if ((e.which === 13 || 1 || 2 || 3)	 && e.target.id === "filter-room-type") {
@@ -138,18 +140,22 @@ function handleRoomInput(e) {
 		let roomsAvailable = currentHotel.getUnoccupiedRooms();
 		let desiredRoom = e.target.dataset.room;
 		let filteredRoomsAvailable = roomsAvailable.filter(room => room.roomType === desiredRoom)
-		filteredRoomsAvailable.length ? 
-		displayFilteredRooms(filteredRoomsAvailable) : 
-		displayRoomTypeUnavailable(roomsAvailable);
+		$('#room-table').remove();
+		displayFilteredRooms(filteredRoomsAvailable);
 	}
 	if ((e.which === 13 || 1 || 2 || 3) && e.target.classList.contains("room-booking")) {
 		e.preventDefault();
 		let selectedRoomNumber = e.target.dataset.number; 
-		let newBookingObject = {userID: currentCustomer.id, date: today, roomNumber: selectedRoomNumber};
-		currentRoom.makeNewBooking(currentHotel, newBookingObject);
+		let newBookingObject = {userID: currentCustomer.id, date: today, roomNumber: parseInt(selectedRoomNumber)};
+		currentRoom.storeUnconfirmedBookings(newBookingObject);
+		e.target.disabled = true;
+		if (!$('#confirm-new-booking').length) {
+		let confirmButton = `<label for="confirm-new-booking">Make Booking Without Room Service</label><button id="confirm-new-booking">Confirm New Booking</button>`;
+		$('#room-table').append(confirmButton);
+		}
 		if (!$('#menu-button').length) {
-		let menuButton = `<button id="menu-button">View Room Service Menu</button>`;
-		$('#room-list').append(menuButton);
+		let menuButton = `<label for="menu-button">Add Room Service for This Booking</label><button id="menu-button">View Room Service Menu</button>`;
+		$('#room-table').append(menuButton);
 		}
 	}
 	if ((e.which === 13 || 1 || 2 || 3)	 && e.target.id === "menu-button") {
@@ -159,18 +165,39 @@ function handleRoomInput(e) {
 		}))];
 		displayMenu(menuItems);
 	}
-
+	if ((e.which === 13 || 1 || 2 || 3) && e.target.id === "confirm-new-booking") {
+		e.preventDefault();
+		currentRoom.makeNewBooking(currentHotel);
+		defaultMainTab(currentHotel);
+		currentOrder.showOrders(currentHotel);
+		currentRoom.showPolarDates(currentHotel);
+		$('#roomservice').html(currentCustomer.showMyOrders(currentHotel));
+		$('#room').html(currentCustomer.showMyBookings(currentHotel));
+	}
 }
 
 function handleNewOrder(e) {
 	if ((e.which === 13 || 1 || 2 || 3) && e.target.classList.contains("menu-item-button")) {
 		e.preventDefault();
 		let newOrder = {food: e.target.dataset.food, price: e.target.dataset.price};
-		currentOrder.placeNewOrder(currentHotel, currentCustomer, newOrder);
+		currentOrder.storeUnconfirmedOrders(currentHotel, currentCustomer, newOrder);
 		console.log(currentHotel);
 	}
+	if ((e.which === 13 || 1 || 2 || 3) && e.target.id === "confirm-menu-purchase" ) {
+		e.preventDefault();
+		currentOrder.placeNewOrder(currentHotel);
+		console.log(currentHotel);
+	}
+	if ((e.which === 13 || 1 || 2 || 3) && e.target.id === "confirm-new-booking") {
+		e.preventDefault();
+		currentRoom.makeNewBooking(currentHotel);
+		defaultMainTab(currentHotel);
+		currentOrder.showOrders(currentHotel);
+		currentRoom.showPolarDates(currentHotel);
+		$('#roomservice').html(currentCustomer.showMyOrders(currentHotel));
+		$('#room').html(currentCustomer.showMyBookings(currentHotel));
+	}
 }
-
 
 function openRoomFilterForm(e) {
 	e.preventDefault();
@@ -219,29 +246,26 @@ function displayCustomerName(e) {
 }
 
 function displayFilteredRooms(rooms) {
-	let roomList = `
-	<div id="room-list">
-	<p> We found the following rooms of that type available today: </p>`;
+	let roomsAvailable = `We found the following rooms of that type available today :`;
+	let roomsUnavailable = `Unfortunately no rooms of that type are available, here is a list of the available rooms :`;
+	let availabilityMessage = rooms.length ? roomsAvailable : roomsUnavailable;
+	let roomTable = `
+	<table id="room-table">
+		<thead>
+			<tr>
+				<th>${availabilityMessage}</th>
+			<tr>
+		<thead>
+		<tbody>`;
 	rooms.forEach(room => {
 		let bedMessage = room.numBeds > 1 ? ` with ${room.numBeds} ${room.bedSize} beds` : ` with 1 ${room.bedSize} bed`;
 		let bidetMessage = room.bidet === true ? `and a bidet.` : `without a bidet.`;
-		roomList += `<button class="room-booking" data-number="${room.number}"> Room ${room.number}, a ${room.roomType}, ${bedMessage}, ${bidetMessage}</button>`
+		roomTable += `<tr><td><button class="room-booking" data-number="${room.number}"> Room ${room.number} — a ${room.roomType}, ${bedMessage}, ${bidetMessage}</button></td></tr>`
 	});
-	roomList += `</div>`;
-	$('#room').append(roomList); 
-}
-
-function displayRoomTypeUnavailable(rooms) {
-	let roomTypeUnavailableList = `
-	<div id="room-list">
-	<p> Unfortunately no rooms of that type are available, here is a list of the available rooms</p>`;
-	rooms.forEach(room => {
-		let bedMessage = room.numBeds > 1 ? ` with ${room.numBeds} ${room.bedSize} beds` : ` with 1 ${room.bedSize} bed`;
-		let bidetMessage = room.bidet === true ? `and a bidet.` : `without a bidet.`;
-		roomTypeUnavailableList += `<button class="room-booking" data-number="${room.number}"> Room ${room.number}, a ${room.roomType}, ${bedMessage}, ${bidetMessage}</button>`;
-	});
-	roomTypeUnavailableList += `</div>`;
-	$('#room').append(roomTypeUnavailableList);
+	roomTable += `
+		</tbody>
+	</table`;
+	$('#room').append(roomTable); 
 }
 
 function displayMenu(menu) {
@@ -269,7 +293,9 @@ function displayMenu(menu) {
 	});
 	menuTable += `
 		</tbody>
-	<table>`;
+	<table>
+	<button id="confirm-menu-purchase">Confirm Room Service Order</button>
+	<button id="confirm-new-booking">Confirm New Booking</button>`;
 	$('#roomservice').empty().append(menuTable);
 	$('.tab-content').hide();
 	$('#roomservice').show();
@@ -282,14 +308,14 @@ function displayRoomFilter() {
 				<legend>Select Room Type</legend>
 				<p>Please select the desired room type</p>
 				<input type="radio" id="single-room" value="single room" name="room-type" tabindex = "0">
-				<label for="single-room" tabindex = "0">Single Room</label>
+				<label for="single-room">Single Room</label>
 				<input type="radio" id="junior-suite" value="junior suite" name="room-type" tabindex = "0">
-				<label for="junior-suite" tabindex = "0">Junior Suite</label>
+				<label for="junior-suite">Junior Suite</label>
 				<input type="radio" id="suite" value="suite" name="room-type" tabindex = "0">
-				<label for="suite" tabindex = "0">Suite</label>
+				<label for="suite">Suite</label>
 				<input type="radio" id="residential-suite" value="residential suite" name="room-type" tabindex = "0">
-				<label for="residential-suite" tabindex = "0">Residential Suite</label>
-				<button id="filter-room-type" tabindex = "0">Filter Rooms</button>
+				<label for="residential-suite">Residential Suite</label>
+				<button id="filter-room-type" tabindex = "0" disabled>Filter Rooms</button>
 				</fieldset>
 			</form>`;
 	$('#room').append(filterMenu);

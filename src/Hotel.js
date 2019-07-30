@@ -11,6 +11,7 @@ class Hotel {
 
 	getBookingsByDate(date = this.currentDate) {
 		return this.bookings.filter(booking => booking.date === date);
+		console.log('bookings today', this.bookings.filter(booking => booking.date === date));
 	}
 
 	getRoomServicesByDate(date = this.currentDate) {
@@ -21,6 +22,8 @@ class Hotel {
 		let todaysBookings = this.getBookingsByDate(date);
 		let takenRooms = this.rooms.filter(room => 
 			todaysBookings.some(booking => booking.roomNumber === room.number));
+		console.log('todaysBookings', todaysBookings);
+		console.log('takenRooms variable', takenRooms);
 		return takenRooms;
 	}
 
