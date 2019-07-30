@@ -162,6 +162,16 @@ function handleRoomInput(e) {
 
 }
 
+function handleNewOrder(e) {
+	if ((e.which === 13 || 1 || 2 || 3) && e.target.classList.contains("menu-item-button")) {
+		e.preventDefault();
+		let newOrder = {food: e.target.dataset.food, price: e.target.dataset.price};
+		currentOrder.placeNewOrder(currentHotel, currentCustomer, newOrder);
+		console.log(currentHotel);
+	}
+}
+
+
 function openRoomFilterForm(e) {
 	e.preventDefault();
 	displayRoomFilter();
@@ -201,7 +211,6 @@ function enterNewCustomer(e) {
 		handleCustomerInstantiation(e);
 	}
 }
-
 
 function displayCustomerName(e) {
 	let customerAlert = `
