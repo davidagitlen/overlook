@@ -9,7 +9,6 @@ import Hotel from './Hotel';
 import Customer from './Customer';
 import Room from './Room';
 import Order from './Order';
-import domUpdates from './domUpdates';
 
 let usersAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users');
 let roomsAPICall = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms');
@@ -41,9 +40,10 @@ $('#customer').on('keypress', handleCustomerKeypress);
 $('#room').on('keypress', handleRoomInput);
 $('#room').on('click', handleRoomInput);
 $('#roomservice').on('keypress', handleOrderSearch);
+$('#roomservice').on('click', handleNewOrder);
 
 setTimeout(() => {
-	domUpdates.defaultMainTab(currentHotel);
+	defaultMainTab(currentHotel);
 	currentOrder.showOrders(currentHotel);
 	currentRoom.showPolarDates(currentHotel);
 }, 3000);
@@ -54,6 +54,23 @@ function getCurrentDate() {
 	let month = String(today.getMonth() + 1).padStart(2, '0');
 	let day = String(today.getDate()).padStart(2, '0');
 	return `${year}/${month}/${day}`
+}
+
+function displayCurrentDate() {
+let today = new Date();
+let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+return today.toLocaleDateString('en-US', options);
+}
+
+function defaultMainTab(hotel) {
+	let mainDefault = `
+	<div>
+	<p id="current-date">${displayCurrentDate()}</p>
+	<p id="unoccupied-rooms"><span>Total Unoccupied Rooms : </span>${hotel.getUnoccupiedRooms().length}<p>
+	<p id="total-revenue"><span>Total Revenue : </span>$${hotel.getTotalRevenue()}</p>
+	<p id="occupied-perc"><span>Percentage of Rooms Occupied : </span> ${hotel.getPercentageOccupied()}%</p>
+	</div>`;
+	$('#main').html(mainDefault)
 }
 
 function showTabContent(e) {
@@ -69,7 +86,6 @@ function handleCustomerSearch(e) {
 	else if (e.which === 13) {
 		e.preventDefault();
 		let name = $('#customer-name-field').val();
-		console.log(name)
 		$('#customer').html(currentHotel.findCustomer(name));
 		$('#customer-name-field').val('');
 	}
@@ -111,11 +127,10 @@ function handleRoomInput(e) {
 		displayAvailableRooms(e);
 	}
 	if ((e.which === 13 || 1 || 2 || 3) && e.target.id === "booking-button") {
-		console.log(e.target.id)
+		e.preventDefault();
 		openRoomFilterForm(e);
 	}
 	if ((e.which === 13 || 1 || 2 || 3) && e.target.type === "radio") {
-		console.log(e.target);
 		$('#filter-room-type').attr("data-room", e.target.value);
 	}
 	if ((e.which === 13 || 1 || 2 || 3)	 && e.target.id === "filter-room-type") {
@@ -124,15 +139,32 @@ function handleRoomInput(e) {
 		let desiredRoom = e.target.dataset.room;
 		let filteredRoomsAvailable = roomsAvailable.filter(room => room.roomType === desiredRoom)
 		filteredRoomsAvailable.length ? 
-		domUpdates.displayFilteredRooms(filteredRoomsAvailable) : 
-		domUpdates.displayRoomTypeUnavailable(roomsAvailable);
-		console.log(filteredRoomsAvailable)
+		displayFilteredRooms(filteredRoomsAvailable) : 
+		displayRoomTypeUnavailable(roomsAvailable);
 	}
+	if ((e.which === 13 || 1 || 2 || 3) && e.target.classList.contains("room-booking")) {
+		e.preventDefault();
+		let selectedRoomNumber = e.target.dataset.number; 
+		let newBookingObject = {userID: currentCustomer.id, date: today, roomNumber: selectedRoomNumber};
+		currentRoom.makeNewBooking(currentHotel, newBookingObject);
+		if (!$('#menu-button').length) {
+		let menuButton = `<button id="menu-button">View Room Service Menu</button>`;
+		$('#room-list').append(menuButton);
+		}
+	}
+	if ((e.which === 13 || 1 || 2 || 3)	 && e.target.id === "menu-button") {
+		e.preventDefault();
+		let menuItems = [...new Set(currentHotel.roomServices.map(item => {
+			return {food: item.food, price: item.totalCost}
+		}))];
+		displayMenu(menuItems);
+	}
+
 }
 
 function openRoomFilterForm(e) {
 	e.preventDefault();
-	domUpdates.displayRoomFilter();
+	displayRoomFilter();
 	$('#booking-button').hide();
 }
 
@@ -141,13 +173,13 @@ function displayAvailableRooms(e) {
 	let bookingsDate = $('#new-date-bookings').val();
 	$('#bookings-dropdown').remove();
 	let roomsAvailable = currentHotel.getUnoccupiedRooms(bookingsDate);
-	domUpdates.displayAvailableRoomsByDate(bookingsDate, roomsAvailable);
+	displayAvailableRoomsByDate(bookingsDate, roomsAvailable);
 	$('#new-date-bookings').val('');
 }
 
 function handleCustomerInstantiation(e) {
 	instantiateCustomer(e);
-	domUpdates.displayCustomerName(e);
+	displayCustomerName(e);
 	$('#roomservice').html(currentCustomer.showMyOrders(currentHotel));
 	$('#room').html(currentCustomer.showMyBookings(currentHotel));
 }
@@ -155,7 +187,6 @@ function handleCustomerInstantiation(e) {
 function instantiateCustomer(e) {
 	let customer = currentHotel.users.find(user => user.name === e.target.dataset.user);
 	currentCustomer = new Customer(customer.name, customer.id);
-	console.log('current customer instance', currentCustomer);
 }
 
 function enterNewCustomer(e) {
@@ -168,6 +199,106 @@ function enterNewCustomer(e) {
 		currentHotel.users.push(brandNewCustomer);
 		$('#new-customer-name').attr("data-user", $('#new-customer-name').val());
 		handleCustomerInstantiation(e);
-	console.log(currentHotel.users)
 	}
 }
+
+
+function displayCustomerName(e) {
+	let customerAlert = `
+	<p><span>Currently Viewing : </span>${e.target.dataset.user}</p>`
+	$('#customer').empty().append(customerAlert);
+}
+
+function displayFilteredRooms(rooms) {
+	let roomList = `
+	<div id="room-list">
+	<p> We found the following rooms of that type available today: </p>`;
+	rooms.forEach(room => {
+		let bedMessage = room.numBeds > 1 ? ` with ${room.numBeds} ${room.bedSize} beds` : ` with 1 ${room.bedSize} bed`;
+		let bidetMessage = room.bidet === true ? `and a bidet.` : `without a bidet.`;
+		roomList += `<button class="room-booking" data-number="${room.number}"> Room ${room.number}, a ${room.roomType}, ${bedMessage}, ${bidetMessage}</button>`
+	});
+	roomList += `</div>`;
+	$('#room').append(roomList); 
+}
+
+function displayRoomTypeUnavailable(rooms) {
+	let roomTypeUnavailableList = `
+	<div id="room-list">
+	<p> Unfortunately no rooms of that type are available, here is a list of the available rooms</p>`;
+	rooms.forEach(room => {
+		let bedMessage = room.numBeds > 1 ? ` with ${room.numBeds} ${room.bedSize} beds` : ` with 1 ${room.bedSize} bed`;
+		let bidetMessage = room.bidet === true ? `and a bidet.` : `without a bidet.`;
+		roomTypeUnavailableList += `<button class="room-booking" data-number="${room.number}"> Room ${room.number}, a ${room.roomType}, ${bedMessage}, ${bidetMessage}</button>`;
+	});
+	roomTypeUnavailableList += `</div>`;
+	$('#room').append(roomTypeUnavailableList);
+}
+
+function displayMenu(menu) {
+	// let itemsList = `
+	// <div id="menu-list">
+	// <p> Here are the items available today!</p>`;
+	// menu.forEach(item => {
+	// 	itemsList += `<p> ${item.food} : A delicious ${item.food.split(' ').slice(1)[0].toLowerCase()} ${item.food.split(' ').slice(2)[0].toLowerCase()} on ${item.food.split(' ').shift().toLowerCase()} bread. Price: $${item.price.toFixed(2)}`
+	// });
+	// itemsList += `</div>`
+	// $('#room').append(itemsList);
+	let menuTable = `
+	<table id="menu-table">
+		<thead>
+			<tr>
+				<th colspan="3">Here are the items available today!:</th>
+			<tr>
+		<thead>
+		<tbody>
+			<tr>
+				<td>Menu Item</td><td>Description</td><td>Price</td>
+			</tr>`;
+	menu.forEach(item => {
+		menuTable += `<tr><td><button class="menu-item-button" data-food="${item.food}" data-price="${item.price}">${item.food}</button></td><td>A delicious ${item.food.split(' ').slice(1)[0].toLowerCase()} ${item.food.split(' ').slice(2)[0].toLowerCase()} on ${item.food.split(' ').shift().toLowerCase()} bread.</td><td>$${item.price.toFixed(2)}</td>`;
+	});
+	menuTable += `
+		</tbody>
+	<table>`;
+	$('#roomservice').empty().append(menuTable);
+	$('.tab-content').hide();
+	$('#roomservice').show();
+}
+
+function displayRoomFilter() {
+	let filterMenu = `
+			<form id="room-filter-form">
+				<fieldset>
+				<legend>Select Room Type</legend>
+				<p>Please select the desired room type</p>
+				<input type="radio" id="single-room" value="single room" name="room-type" tabindex = "0">
+				<label for="single-room" tabindex = "0">Single Room</label>
+				<input type="radio" id="junior-suite" value="junior suite" name="room-type" tabindex = "0">
+				<label for="junior-suite" tabindex = "0">Junior Suite</label>
+				<input type="radio" id="suite" value="suite" name="room-type" tabindex = "0">
+				<label for="suite" tabindex = "0">Suite</label>
+				<input type="radio" id="residential-suite" value="residential suite" name="room-type" tabindex = "0">
+				<label for="residential-suite" tabindex = "0">Residential Suite</label>
+				<button id="filter-room-type" tabindex = "0">Filter Rooms</button>
+				</fieldset>
+			</form>`;
+	$('#room').append(filterMenu);
+}
+
+function displayAvailableRoomsByDate(date, rooms) {
+	let roomsAvailableMessage = `
+	<div id="bookings-dropdown">
+	<p>The following rooms are available on ${date}</p>
+	<select id="rooms-by-date">
+		<option>Available Rooms</option>`;
+	rooms.forEach(room => 
+		roomsAvailableMessage += `<option value="">Room Number ${room.number}</option>`);
+	roomsAvailableMessage += `</select>
+	</div>`
+	$('#bookings-search').append(roomsAvailableMessage);
+}
+
+setTimeout(() => {
+	console.log(currentHotel);
+}, 3000) 

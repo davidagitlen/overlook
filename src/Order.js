@@ -26,6 +26,11 @@ class Order {
 		domUpdates.defaultNoOrders(date);
 	}
 
+	placeNewOrder(hotel, customer, order) {
+		let newOrder = {userID: customer.id, date: hotel.currentDate, food: order.food, totalCost: order.price};
+		hotel.roomServices.push(newOrder);
+	}
+
 }
 
 export default Order;

@@ -1,0 +1,46 @@
+$border-style: 2px solid;
+$main-color: #00008B;
+
+@mixin dimensions($height, $width) {
+	height: $height;
+	width: $width;
+}
+
+@mixin button-border($border, $border-radius) {
+	border: $border;
+	border-radius: $border-radius;
+}
+
+.tab-content {
+	@include dimensions(72vh, 95.5%);
+	padding: 25px;
+	border: $border-style;
+	overflow: scroll;
+
+		&#main {
+		border-color: $main-color;
+
+		& div {
+			@include dimensions(300px, 500px);
+			font-size: 18px;
+			border: solid 1px $main-color;
+			background-color: rgba(0, 0, 139, .1);
+			padding: 20px;
+		}
+
+		& p {
+			line-height: 3;
+			opacity: 1;
+		}
+
+		& span {
+			font-weight: bold;
+		}
+
+		& #current-date {
+			font-size: 26px;
+		}
+
+	}
+
+}

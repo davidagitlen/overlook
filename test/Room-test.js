@@ -44,6 +44,14 @@ describe('Room', () => {
 		});
 	});
 
-
+	describe('makeNewBooking', () => {
+		it('should put a new booking in hotel\'s bookings array', () => {
+			expect(hotel.bookings.length).to.equal(15);
+			let newBooking = { userID: 12, date: '2019/10/25', roomNumber: 12 };
+			room.makeNewBooking(hotel, newBooking);
+			expect(hotel.bookings.length).to.equal(16);
+			expect(hotel.bookings[15]).to.eql(newBooking);
+		});
+	});
 
 })

@@ -1,0 +1,58 @@
+$border-style: 2px solid;
+$order-color: #960B0B;
+
+@mixin dimensions($height, $width) {
+	height: $height;
+	width: $width;
+}
+
+@mixin button-border($border, $border-radius) {
+	border: $border;
+	border-radius: $border-radius;
+}
+
+.tab-content {
+	@include dimensions(72vh, 95.5%);
+	padding: 25px;
+	border: $border-style;
+	overflow: scroll;
+
+		&#roomservice {
+			border-color: $order-color;
+
+			& p {
+				font-size: 16px;
+				line-height: 2;
+			}
+
+			& span {
+				font-weight: bold;
+				margin: 0px 10px 0px 20px;
+			}
+
+			& #menu-table {
+				@include dimensions(300px, max-content);
+				display: block;
+				overflow: scroll;
+				margin: 15px;
+				text-align: center;
+				border: solid 1px lightgray;
+				padding: 10px;
+
+					& tbody tr:nth-child(odd) {
+	 					 background-color: ghostwhite;
+					}
+
+					& thead {
+						font-size: 18px;
+					}
+
+					& td {
+						padding: 5px;
+					}
+
+				}
+
+		}	
+
+}

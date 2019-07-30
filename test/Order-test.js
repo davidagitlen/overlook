@@ -1,5 +1,6 @@
 import Order from '../src/Order';
 import Hotel from '../src/Hotel';
+import Customer from '../src/Customer';
 import mockData from '../src/mock-data';
 import domUpdates from '../src/domUpdates';
 import chai from 'chai';
@@ -14,6 +15,8 @@ let today = '2019/07/25';
 let todaysOrder = {user: 'Zachery Abbott', room: 6, item: 'Practical Granite Sandwich', price: 14.87};
 let hotel = new Hotel(mockData.users, mockData.rooms, mockData.bookings, mockData.roomServices, today);
 let order = new Order(today);
+let customer = new Customer('Bob', 51);
+let customerOrder = {food: 'sammich', price: 200};
 
 describe('Order', () => {
 	it('should be a function', () => {
@@ -39,6 +42,15 @@ describe('Order', () => {
 		it('should fire defaultNoOrders if there are no orders for today', () => {
 			order.showOrders(hotel, '2019/01/01');
 			expect(domUpdates.defaultNoOrders).to.have.been.called(1);
+		});
+	});
+
+	describe('placeNewOrder', () => {
+		it('should push a new order into hotel\'s roomServices array', () => {
+			expect(hotel.roomServices.length).to.equal(14);
+			order.placeNewOrder(hotel, customer, customerOrder);
+			expect(hotel.roomServices.length).to.equal(15);
+			expect(hotel.roomServices[14]).to.eql({userID: 51, date: '2019/07/25', food: 'sammich', totalCost: 200});
 		});
 	});
 

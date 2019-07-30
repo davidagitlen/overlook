@@ -1,0 +1,64 @@
+$border-style: 2px solid;
+$customer-color: #228B22;
+
+@mixin dimensions($height, $width) {
+	height: $height;
+	width: $width;
+}
+
+@mixin button-border($border, $border-radius) {
+	border: $border;
+	border-radius: $border-radius;
+}
+
+.tab-content {
+	@include dimensions(72vh, 95.5%);
+	padding: 25px;
+	border: $border-style;
+	overflow: scroll;
+
+		&#customer {
+		border-color: $customer-color;
+		line-height: 2;
+
+		& p,
+		h2 {
+			font-size: 22px;
+			line-height: 2;
+		}
+
+		& form {
+
+			& legend {
+				display: none;
+			}
+
+			& input {
+				@include dimensions(25px, 200px);
+				min-width: 200px;
+				border: solid gray .5px;
+				border-radius: 2px;
+				margin: 0px 0px 0px 10px;
+			}
+		}
+
+		& button {
+			@include button-border(.5px solid gainsboro, 10px);
+			font-size: 16px;
+			margin: 0px 0px 10px 0px;
+
+			&:hover {
+				font-style: italic;
+				color: red;
+			}
+
+			&:focus {
+				outline: none;
+				@include button-border(.5px solid blue, 10px);
+			}
+
+		}
+
+	}
+
+}

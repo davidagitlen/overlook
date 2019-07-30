@@ -34,6 +34,17 @@ class Room {
 		domUpdates.defaultRoomTab(bestDate, worstDate);
 	}
 
+	makeNewBooking(hotel, booking) {
+		hotel.bookings.push(booking);
+	}
+
+	cancelBooking(hotel, cancellation) {
+		console.log(hotel.bookings)
+		let revisedBookings = hotel.bookings.filter(booking => (booking.userID !== cancellation.userID && booking.date !== cancellation.date && booking.roomNumber !== cancellation.roomNumber));
+		console.log(revisedBookings)
+		hotel.bookings = revisedBookings;
+	}
+
 }
 
 export default Room;

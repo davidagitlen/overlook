@@ -1,0 +1,75 @@
+$border-style: 2px solid;
+$room-color: #FFD700;
+
+@mixin dimensions($height, $width) {
+	height: $height;
+	width: $width;
+}
+
+@mixin button-border($border, $border-radius) {
+	border: $border;
+	border-radius: $border-radius;
+}
+
+.tab-content {
+	@include dimensions(72vh, 95.5%);
+	padding: 25px;
+	border: $border-style;
+	overflow: scroll;
+
+		&#room {
+		border-color: $room-color;
+
+		& #user-bookings {
+			@include dimensions(300px, max-content);
+			display: block;
+			overflow: scroll;
+			margin: 15px;
+			text-align: center;
+			border: solid 1px lightgray;
+			padding: 10px;
+
+				& tbody tr:nth-child(odd) {
+ 					 background-color: ghostwhite;
+				}
+
+				& thead {
+					font-size: 18px;
+				}
+
+				& td {
+					padding: 5px;
+				}
+
+		}
+
+		& #room-list {
+			@include dimensions(300px, 450px);
+			line-height: 1.5;
+			overflow: scroll;
+			border: solid 1px gray;
+			background-color: rgba(211, 211, 211, .3);
+			padding: 10px;
+
+			& button {
+				@include button-border(.5px solid transparent, 10px);
+				background: none;
+				font-size: 16px;
+
+				&:hover {
+					font-style: italic;
+					color: red;
+				}			
+				
+				&:focus {
+					outline: none;
+					@include button-border(.5px solid blue, 10px);
+				}
+
+			}
+
+		}
+
+	}
+
+}
