@@ -14,9 +14,6 @@
 
 ![Overlook demo gif](./src/images/demogif2.gif)
 
-
-[GitHub Pages Link](https://davidagitlen.github.io/overlook/ "GitHub Pages Link")
-
 ### Installation Steps
 
 - Clone the repo to your local machine
