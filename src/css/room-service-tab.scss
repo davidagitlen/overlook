@@ -27,6 +27,23 @@ $order-color: #960B0B;
 	border: $border-style;
 	overflow: scroll;
 
+	& button {
+	@include button-border(.5px solid gainsboro, 10px);
+	font-size: 16px;
+	margin: 0px 0px 10px 0px;
+
+		&:hover {
+			font-style: italic;
+			color: red;
+		}
+
+		&:focus {
+			outline: none;
+			@include button-border(1.5px solid blue, 10px);
+		}
+
+	}
+
 	&#roomservice {
 		border-color: $order-color;
 
@@ -51,7 +68,7 @@ $order-color: #960B0B;
 			// border: solid 1px lightgray;
 
 			& tbody tr:nth-child(odd) {
-					 background-color: ghostwhite;
+				background-color: ghostwhite;
 			}
 
 			& thead {
@@ -59,25 +76,47 @@ $order-color: #960B0B;
 			}
 
 			& td {
-				padding: 5px;
+				padding: 10px;
 			}
+
+			// & button {
+			// 	@include button-border(.5px solid gainsboro, 10px);
+			// 	font-size: 16px;
+			// 	margin: 0px 0px 10px 0px;
+
+			// 	&:hover {
+			// 		font-style: italic;
+			// 		color: red;
+			// 	}
+
+			// 	&:focus {
+			// 		outline: none;
+			// 		@include button-border(1.5px solid blue, 10px);
+			// 	}
+
+			// }
 
 		}
 
 		& #user-orders {
-			@include dimensions(300px, max-content);
+			@include dimensions(max-content, max-content);
 			@include table-style(block, scroll, 15px, 10px, center, solid 1px lightgray);
 
 			& tbody tr:nth-child(odd) {
-					 background-color: ghostwhite;
+				background-color: ghostwhite;
 			}
 
 			& thead {
 				font-size: 18px;
+				font-weight: bold;
 			}
 
 			& td {
-				padding: 5px;
+				padding: 10px;
+			}
+
+			& tfoot {
+				text-weight: bold;
 			}
 
 		}

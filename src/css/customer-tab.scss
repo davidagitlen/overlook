@@ -17,47 +17,64 @@ $customer-color: #228B22;
 	border: $border-style;
 	overflow: scroll;
 
-		&#customer {
-		border-color: $customer-color;
+	& button {
+		@include button-border(.5px solid gainsboro, 10px);
+		font-size: 16px;
+		margin: 0px 0px 10px 0px;
+
+		&:hover {
+			font-style: italic;
+			color: red;
+		}
+
+		&:focus {
+			outline: none;
+			@include button-border(1.5px solid blue, 10px);
+		}
+
+	}
+
+	&#customer {
+	border-color: $customer-color;
+	line-height: 2;
+
+	& p,
+	h2 {
+		font-size: 22px;
 		line-height: 2;
+	}
 
-		& p,
-		h2 {
-			font-size: 22px;
-			line-height: 2;
+	& form {
+
+		// & legend {
+		// 	display: none;
+		// }
+
+		& input {
+			@include dimensions(25px, 200px);
+			min-width: 200px;
+			border: solid gray .5px;
+			border-radius: 2px;
+			margin: 0px 0px 0px 10px;
 		}
+	}
 
-		& form {
+	// & button {
+	// 	@include button-border(.5px solid gainsboro, 10px);
+	// 	font-size: 16px;
+	// 	margin: 0px 0px 10px 0px;
 
-			& legend {
-				display: none;
-			}
+	// 	&:hover {
+	// 		font-style: italic;
+	// 		color: red;
+	// 	}
 
-			& input {
-				@include dimensions(25px, 200px);
-				min-width: 200px;
-				border: solid gray .5px;
-				border-radius: 2px;
-				margin: 0px 0px 0px 10px;
-			}
-		}
+	// 	&:focus {
+	// 		outline: none;
+	// 		@include button-border(1.5px solid blue, 10px);
+	// 	}
 
-		& button {
-			@include button-border(.5px solid gainsboro, 10px);
-			font-size: 16px;
-			margin: 0px 0px 10px 0px;
-
-			&:hover {
-				font-style: italic;
-				color: red;
-			}
-
-			&:focus {
-				outline: none;
-				@include button-border(.5px solid blue, 10px);
-			}
-
-		}
+	// }
 
 	}
 

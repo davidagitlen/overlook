@@ -6,6 +6,11 @@ $main-color: #00008B;
 	width: $width;
 }
 
+@mixin button-border($border, $border-radius) {
+	border: $border;
+	border-radius: $border-radius;
+}
+
 body {
   @include dimensions(100%, 98%);
 	font-family: 'IBM Plex Sans', 'Arial', sans-serif; 
@@ -17,6 +22,27 @@ body {
 main {
 	@include dimensions(100%, 100%)
 }
+
+legend {
+	display: none;
+}
+
+// button {
+// 	@include button-border(.5px solid gainsboro, 10px);
+// 	font-size: 16px;
+// 	margin: 0px 0px 10px 0px;
+
+// 	&:hover {
+// 		font-style: italic;
+// 		color: red;
+// 	}
+
+// 	&:focus {
+// 		outline: none;
+// 		@include button-border(1.5px solid blue, 10px);
+// 	}
+
+// }
 
 .splash {
 	@include dimensions(250px, 400px);

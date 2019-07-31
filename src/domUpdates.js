@@ -85,16 +85,16 @@ let domUpdates = {
 
 	defaultRoomTab(best, worst) {
 		let bookingsMessage = `
-		<p>The most popular recent date at your hotel was ${best.date} with ${best.bookings} bookings.</p><br>
-		<p> The least popular recent date at your hotel was ${worst.date} with ${worst.bookings} bookings.</p>
-		<form id="bookings-search">
+		<p id="popular=date">The most popular recent date at your hotel was ${best.date}, with ${best.bookings} bookings.</p><br>
+		<p id="unpopular-date"> The least popular recent date at your hotel was ${worst.date}, with ${worst.bookings} bookings.</p>
+		<form id="bookings-search" autocomplte="off">
 			<fieldset>
 				<legend>Find Another Date's Bookings</legend>
 				<label for="new-date-bookings">Search Bookings on a Specific Date</label>
-				<input type="text" id="new-date-bookings" placeholder="yyyy/mm/dd">
+				<input type="text" id="new-date-bookings" placeholder="yyyy/mm/dd" autocomplete="off">
 			</fieldset>
 		</form>`
-		$('#room').append(bookingsMessage);
+		$('#room-left').append(bookingsMessage);
 	},
 
 	displayCustomerBookings(user, hotel, userBookings) {

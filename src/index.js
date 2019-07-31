@@ -40,6 +40,7 @@ $('#customer').on('keypress', handleCustomerKeypress);
 $('#room').on('keypress', handleRoomInput);
 $('#room').on('click', handleRoomInput);
 $('#roomservice').on('keypress', handleOrderSearch);
+$('#roomservice').on('keypress', handleNewOrder);
 $('#roomservice').on('click', handleNewOrder);
 
 setTimeout(() => {
@@ -111,7 +112,7 @@ function handleOrderSearch(e) {
 	if (e.which === 13 && !$('#new-date-orders').val()) {
 		e.preventDefault();
 	}
-	if (e.which === 13) {
+	if (e.which === 13 && e.target.id === "new-date-orders") {
 		e.preventDefault();
 		let orderDate = $('#new-date-orders').val();
 		$('#roomservice').empty();
@@ -150,12 +151,13 @@ function handleRoomInput(e) {
 		currentRoom.storeUnconfirmedBookings(newBookingObject);
 		e.target.disabled = true;
 		if (!$('#confirm-new-booking').length) {
-		let confirmButton = `<label for="confirm-new-booking">Make Booking Without Room Service</label><button id="confirm-new-booking">Confirm New Booking</button>`;
-		$('#room-table').append(confirmButton);
+		let confirmButton = `<label for="confirm-new-booking">Confirm Booking Now</label><button id="confirm-new-booking" tabindex="0">Confirm New Booking</button>
+			<p>or</p><br>`;
+		$('#room-right').append(confirmButton);
 		}
 		if (!$('#menu-button').length) {
-		let menuButton = `<label for="menu-button">Add Room Service for This Booking</label><button id="menu-button">View Room Service Menu</button>`;
-		$('#room-table').append(menuButton);
+		let menuButton = `<label for="menu-button">Add Room Service for This Booking</label><button id="menu-button" tabindex="0">View Room Service Menu</button>`;
+		$('#room-right').append(menuButton);
 		}
 	}
 	if ((e.which === 13 || 1 || 2 || 3)	 && e.target.id === "menu-button") {
@@ -172,7 +174,7 @@ function handleRoomInput(e) {
 		currentOrder.showOrders(currentHotel);
 		currentRoom.showPolarDates(currentHotel);
 		$('#roomservice').html(currentCustomer.showMyOrders(currentHotel));
-		$('#room').html(currentCustomer.showMyBookings(currentHotel));
+		$('#room-left').html(currentCustomer.showMyBookings(currentHotel));
 	}
 }
 
@@ -195,7 +197,7 @@ function handleNewOrder(e) {
 		currentOrder.showOrders(currentHotel);
 		currentRoom.showPolarDates(currentHotel);
 		$('#roomservice').html(currentCustomer.showMyOrders(currentHotel));
-		$('#room').html(currentCustomer.showMyBookings(currentHotel));
+		$('#room-left').html(currentCustomer.showMyBookings(currentHotel));
 	}
 }
 
@@ -218,7 +220,7 @@ function handleCustomerInstantiation(e) {
 	instantiateCustomer(e);
 	displayCustomerName(e);
 	$('#roomservice').html(currentCustomer.showMyOrders(currentHotel));
-	$('#room').html(currentCustomer.showMyBookings(currentHotel));
+	$('#room-left').html(currentCustomer.showMyBookings(currentHotel));
 }
 
 function instantiateCustomer(e) {
@@ -265,23 +267,15 @@ function displayFilteredRooms(rooms) {
 	roomTable += `
 		</tbody>
 	</table`;
-	$('#room').append(roomTable); 
+	$('#room-filter-form').append(roomTable); 
 }
 
 function displayMenu(menu) {
-	// let itemsList = `
-	// <div id="menu-list">
-	// <p> Here are the items available today!</p>`;
-	// menu.forEach(item => {
-	// 	itemsList += `<p> ${item.food} : A delicious ${item.food.split(' ').slice(1)[0].toLowerCase()} ${item.food.split(' ').slice(2)[0].toLowerCase()} on ${item.food.split(' ').shift().toLowerCase()} bread. Price: $${item.price.toFixed(2)}`
-	// });
-	// itemsList += `</div>`
-	// $('#room').append(itemsList);
 	let menuTable = `
 	<table id="menu-table">
 		<thead>
 			<tr>
-				<th colspan="3">Here are the items available today!:</th>
+				<th colspan="3">Click on an item to add it to your customer's order:</th>
 			<tr>
 		<thead>
 		<tbody>
@@ -294,7 +288,9 @@ function displayMenu(menu) {
 	menuTable += `
 		</tbody>
 	<table>
-	<button id="confirm-menu-purchase">Confirm Room Service Order</button>
+	<label for="confirm-menu-purchase">Add Customer Selections to Order</label>
+	<button id="confirm-menu-purchase">Confirm Room Service Order</button><br>
+	<label for="confirm-new-booking">Submit Completed Booking</label>
 	<button id="confirm-new-booking">Confirm New Booking</button>`;
 	$('#roomservice').empty().append(menuTable);
 	$('.tab-content').hide();
@@ -307,18 +303,18 @@ function displayRoomFilter() {
 				<fieldset>
 				<legend>Select Room Type</legend>
 				<p>Please select the desired room type</p>
-				<input type="radio" id="single-room" value="single room" name="room-type" tabindex = "0">
+				<input type="radio" id="single-room" value="single room" name="room-type" tabindex="0">
 				<label for="single-room">Single Room</label>
-				<input type="radio" id="junior-suite" value="junior suite" name="room-type" tabindex = "0">
+				<input type="radio" id="junior-suite" value="junior suite" name="room-type" tabindex="0">
 				<label for="junior-suite">Junior Suite</label>
-				<input type="radio" id="suite" value="suite" name="room-type" tabindex = "0">
+				<input type="radio" id="suite" value="suite" name="room-type" tabindex="0">
 				<label for="suite">Suite</label>
-				<input type="radio" id="residential-suite" value="residential suite" name="room-type" tabindex = "0">
+				<input type="radio" id="residential-suite" value="residential suite" name="room-type" tabindex="0">
 				<label for="residential-suite">Residential Suite</label>
-				<button id="filter-room-type" tabindex = "0" disabled>Filter Rooms</button>
+				<button id="filter-room-type" tabindex="0" disabled>Filter Rooms</button>
 				</fieldset>
 			</form>`;
-	$('#room').append(filterMenu);
+	$('#room-right').html(filterMenu);
 }
 
 function displayAvailableRoomsByDate(date, rooms) {
