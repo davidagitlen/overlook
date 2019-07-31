@@ -20,16 +20,130 @@ $room-color: #FFD700;
 	border: $table-border;
 }
 
-.tab-content {
-	@include dimensions(72vh, 95.5%);
-	padding: 25px;
-	border: $border-style;
-	overflow: scroll;
+#bookings-search {
 
-	& button {
-		@include button-border(.5px solid gainsboro, 10px);
+	& label {
 		font-size: 16px;
-		margin: 0px 0px 10px 0px;
+		font-weight: bold;
+	}
+
+	& input {
+		font-size: 16px;
+		text-align: center;
+		@include dimensions(20px, 100px);
+	}
+
+}
+
+#room {
+	display: flex;
+	border-color: $room-color;
+	text-align: center;
+
+	& form {
+		line-height: 2;
+	}
+
+	& #room-left {
+		@include dimensions(99%, 48%);
+		margin: 0px 5px 0px 0px;
+
+		& p {
+			margin: 0px 0px 15px 0px
+		}
+
+		& #no-customer-bookings-line {
+			margin: 0px 0px 15px 55px;
+			text-align: left;
+		}
+
+	}
+
+	& #room-right {
+		@include dimensions(99%, 48%);
+		margin: 0px 0px 0px 5px;
+	}
+
+	& #unpopular-date {
+		margin: 0px 0px 15px 0px;
+	}
+
+	& #user-bookings {
+		@include dimensions(400px, max-content);
+		@include table-style(block, scroll, 15px, 10px, center, solid 1px lightgray);
+
+		& tbody tr:nth-child(odd) {
+			background-color: ghostwhite;
+		}
+
+		& thead {
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		& td {
+			padding: 5px;
+		}
+
+	}
+
+	& #rooms-available {
+		@include dimensions(400px, max-content);
+		@include table-style(block, scroll, 15px 0px 0px 100px, 10px, center, solid 1px lightgray);
+
+		& tbody tr:nth-child(odd) {
+			background-color: ghostwhite;
+		}
+
+		& thead {
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		& td {
+			padding: 5px;
+		}
+
+	}
+
+	& #room-table {
+		@include dimensions(max-content, max-content);
+		@include table-style(block, scroll, 15px 15px 15px 65px, 10px, center, solid 1px lightgray);
+		max-height: 400px;
+
+		& tbody tr:nth-child(odd) {
+			background-color: ghostwhite;
+		}
+
+		& thead {
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		& td {
+			padding: 5px;
+		}
+
+		& button {
+			@include button-border(.5px solid transparent, 10px);
+			background: transparent;
+
+			&:hover {
+				font-style: italic;
+				color: red;
+			}
+
+			&:focus {
+				outline: none;
+				@include button-border(1.5px solid blue, 10px);
+			}
+
+		}
+
+	}
+
+	& #booking-button {
+		margin: 0px 210px 0px 0px;
 
 		&:hover {
 			font-style: italic;
@@ -42,158 +156,36 @@ $room-color: #FFD700;
 		}
 
 	}
-	&#room {
-	display: flex;
-	border-color: $room-color;
-	text-align: center;
 
-		& form {
-			// text-align: center;
-			line-height: 2;
+	& #confirm-new-booking {
+		@include button-border(.5px solid gainsboro, 10px);
+		margin: 0px 0px 10px 10px;
+
+		&:hover {
+			font-style: italic;
+			color: red;
 		}
 
-		& #room-left {
-			@include dimensions(99%, 48%);
-			margin: 0px 5px 0px 0px;
+		&:focus {
+			outline: none;
+			@include button-border(1.5px solid blue, 10px);
 		}
 
-		& #room-right {
-			@include dimensions(99%, 48%);
-			margin: 0px 0px 0px 5px;
+	}
+
+	& #menu-button {
+		@include button-border(.5px solid gainsboro, 10px);
+		margin: 0px 0px 10px 10px;
+
+		&:hover {
+			font-style: italic;
+			color: red;
 		}
 
-		& #unpopular-date {
-			margin: 0px 0px 15px 0px;
+		&:focus {
+			outline: none;
+			@include button-border(1.5px solid blue, 10px);
 		}
-
-		& #user-bookings {
-			@include dimensions(400px, max-content);
-			@include table-style(block, scroll, 15px, 10px, center, solid 1px lightgray);
-
-			& tbody tr:nth-child(odd) {
-				background-color: ghostwhite;
-			}
-
-			& thead {
-				font-size: 18px;
-				font-weight: bold;
-			}
-
-			& td {
-				padding: 5px;
-			}
-
-		}
-
-		& #room-table {
-			@include dimensions(max-content, max-content);
-			@include table-style(block, scroll, 15px 15px 15px 65px, 10px, center, solid 1px lightgray);
-			max-height: 400px;
-
-			& tbody tr:nth-child(odd) {
-				background-color: ghostwhite;
-			}
-
-			& thead {
-				font-size: 18px;
-				font-weight: bold;
-			}
-
-			& td {
-				padding: 5px;
-			}
-
-			& button {
-				@include button-border(.5px solid transparent, 10px);
-				background: transparent;
-
-				&:hover {
-					font-style: italic;
-					color: red;
-				}
-
-				&:focus {
-					outline: none;
-					@include button-border(1.5px solid blue, 10px);
-				}
-
-			}
-
-		}
-
-		& #booking-button {
-			margin: 0px 210px 0px 0px;
-
-			&:hover {
-				font-style: italic;
-				color: red;
-			}
-
-			&:focus {
-				outline: none;
-				@include button-border(1.5px solid blue, 10px);
-			}
-
-		}
-
-
-		& #confirm-new-booking {
-			@include button-border(.5px solid gainsboro, 10px);
-			margin: 0px 0px 10px 10px;
-
-			&:hover {
-				font-style: italic;
-				color: red;
-			}
-
-			&:focus {
-				outline: none;
-				@include button-border(1.5px solid blue, 10px);
-			}
-
-		}
-
-		& #menu-button {
-			@include button-border(.5px solid gainsboro, 10px);
-			margin: 0px 0px 10px 10px;
-
-			&:hover {
-				font-style: italic;
-				color: red;
-			}
-
-			&:focus {
-				outline: none;
-				@include button-border(1.5px solid blue, 10px);
-			}
-			
-		}
-		// & #room-list {
-		// 	@include dimensions(300px, 450px);
-		// 	line-height: 1.5;
-		// 	overflow: scroll;
-		// 	border: solid 1px gray;
-		// 	background-color: rgba(211, 211, 211, .3);
-		// 	padding: 10px;
-
-			// & button {
-			// 	@include button-border(.5px solid transparent, 10px);
-			// 	background: none;
-			// 	font-size: 16px;
-
-			// 	&:hover {
-			// 		font-style: italic;
-			// 		color: red;
-			// 	}			
-				
-			// 	&:focus {
-			// 		outline: none;
-			// 		@include button-border(.5px solid blue, 10px);
-			// 	}
-
-			// }
-
-		// }
 
 	}
 

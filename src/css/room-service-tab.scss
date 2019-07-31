@@ -20,107 +20,78 @@ $order-color: #960B0B;
 	border: $table-border;
 }
 
+#roomservice {
+	border-color: $order-color;
 
-.tab-content {
-	@include dimensions(72vh, 95.5%);
-	padding: 25px;
-	border: $border-style;
-	overflow: scroll;
+	& p {
+		font-size: 16px;
+		line-height: 2;
+	}
 
-	& button {
-	@include button-border(.5px solid gainsboro, 10px);
-	font-size: 16px;
-	margin: 0px 0px 10px 0px;
+	& span {
+		font-weight: bold;
+		margin: 0px 10px 0px 20px;
+	}
 
-		&:hover {
-			font-style: italic;
-			color: red;
+	& label {
+		font-size: 16px;
+		font-weight: bold;
+	}
+
+	& input {
+		font-size: 16px;
+		text-align: center;
+		@include dimensions(20px, 100px);
+	}
+
+	& #menu-table {
+		@include dimensions(300px, max-content);
+		@include table-style(block, scroll, 15px, 10px, center, solid 1px lightgray);
+
+		& tbody tr:nth-child(odd) {
+			background-color: ghostwhite;
 		}
 
-		&:focus {
-			outline: none;
-			@include button-border(1.5px solid blue, 10px);
+		& thead {
+			font-size: 18px;
+		}
+
+		& td {
+			padding: 10px;
 		}
 
 	}
 
-	&#roomservice {
-		border-color: $order-color;
+	& #user-orders {
+		@include dimensions(max-content, max-content);
+		@include table-style(block, scroll, 15px, 10px, center, solid 1px lightgray);
 
-		& p {
-			font-size: 16px;
-			line-height: 2;
+		& tbody tr:nth-child(odd) {
+			background-color: ghostwhite;
 		}
 
-		& span {
+		& thead {
+			font-size: 18px;
 			font-weight: bold;
-			margin: 0px 10px 0px 20px;
 		}
 
-		& #menu-table {
-			@include dimensions(300px, max-content);
-			@include table-style(block, scroll, 15px, 10px, center, solid 1px lightgray);
-			// display: block;
-			// overflow: scroll;
-			// margin: 15px;
-			// padding: 10px;
-			// text-align: center;
-			// border: solid 1px lightgray;
-
-			& tbody tr:nth-child(odd) {
-				background-color: ghostwhite;
-			}
-
-			& thead {
-				font-size: 18px;
-			}
-
-			& td {
-				padding: 10px;
-			}
-
-			// & button {
-			// 	@include button-border(.5px solid gainsboro, 10px);
-			// 	font-size: 16px;
-			// 	margin: 0px 0px 10px 0px;
-
-			// 	&:hover {
-			// 		font-style: italic;
-			// 		color: red;
-			// 	}
-
-			// 	&:focus {
-			// 		outline: none;
-			// 		@include button-border(1.5px solid blue, 10px);
-			// 	}
-
-			// }
-
+		& td {
+			padding: 10px;
 		}
 
-		& #user-orders {
-			@include dimensions(max-content, max-content);
-			@include table-style(block, scroll, 15px, 10px, center, solid 1px lightgray);
-
-			& tbody tr:nth-child(odd) {
-				background-color: ghostwhite;
-			}
-
-			& thead {
-				font-size: 18px;
-				font-weight: bold;
-			}
-
-			& td {
-				padding: 10px;
-			}
-
-			& tfoot {
-				text-weight: bold;
-			}
-
+		& tfoot {
+			text-weight: bold;
 		}
 
-	}	
+	}
 
-}
+	& #confirm-menu-purchase,
+		#confirm-new-booking {
+		margin: 0px 0px 10px 15px;
+	}
+
+	& #no-orders-by-date {
+			margin: 0px 0px 10px 52px;
+	}
+
+}	

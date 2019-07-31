@@ -1,5 +1,6 @@
 $primary-background: #FDFDFD;
 $main-color: #00008B;
+$border-style: 2px solid;
 
 @mixin dimensions($height, $width) {
 	height: $height;
@@ -27,23 +28,6 @@ legend {
 	display: none;
 }
 
-// button {
-// 	@include button-border(.5px solid gainsboro, 10px);
-// 	font-size: 16px;
-// 	margin: 0px 0px 10px 0px;
-
-// 	&:hover {
-// 		font-style: italic;
-// 		color: red;
-// 	}
-
-// 	&:focus {
-// 		outline: none;
-// 		@include button-border(1.5px solid blue, 10px);
-// 	}
-
-// }
-
 .splash {
 	@include dimensions(250px, 400px);
 	background-color: lighten($main-color, 71%);
@@ -58,6 +42,31 @@ legend {
 
 	& h2 {
 		margin: 75px 0px 10px 0px;
+	}
+
+}
+
+.tab-content {
+	@include dimensions(72vh, 95.5%);
+	padding: 25px;
+	border: $border-style;
+	overflow: scroll;
+
+	& button {
+		@include button-border(.5px solid gainsboro, 10px);
+		font-size: 16px;
+		margin: 0px 0px 10px 0px;
+
+		&:hover {
+			font-style: italic;
+			color: red;
+		}
+
+		&:focus {
+			outline: none;
+			@include button-border(1.5px solid blue, 10px);
+		}
+
 	}
 
 }

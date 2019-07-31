@@ -12,55 +12,29 @@ $main-color: #00008B;
 }
 
 
+#main {
+border-color: $main-color;
 
-.tab-content {
-	@include dimensions(72vh, 95.5%);
-	padding: 25px;
-	border: $border-style;
-	overflow: scroll;
+	& div {
+		@include dimensions(300px, 500px);
+		font-size: 18px;
+		border: solid 1px $main-color;
+		background-color: ghostwhite;
+		padding: 20px;
+	}
 
-	& button {
-		@include button-border(.5px solid gainsboro, 10px);
-		font-size: 16px;
-		margin: 0px 0px 10px 0px;
-
-		&:hover {
-			font-style: italic;
-			color: red;
-		}
-
-		&:focus {
-			outline: none;
-			@include button-border(1.5px solid blue, 10px);
-		}
+	& p {
+		line-height: 3;
+		opacity: 1;
 
 	}
 
-	&#main {
-	border-color: $main-color;
+	& span {
+		font-weight: bold;
+	}
 
-		& div {
-			@include dimensions(300px, 500px);
-			font-size: 18px;
-			border: solid 1px $main-color;
-			background-color: ghostwhite;
-			padding: 20px;
-		}
-
-		& p {
-			line-height: 3;
-			opacity: 1;
-
-		}
-
-		& span {
-			font-weight: bold;
-		}
-
-		& #current-date {
-			font-size: 26px;
-		}
-
+	& #current-date {
+		font-size: 26px;
 	}
 
 }
