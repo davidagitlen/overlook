@@ -127,15 +127,15 @@ function handleRoomInput(e) {
     e.preventDefault();
     displayAvailableRooms(e);
   }
-  if ((e.which === 13 || 1 || 2 || 3) && e.target.id === "booking-button") {
+  if ((e.which === 13 || e.which === 1 || e.which === 2 || e.which === 3) && e.target.id === "booking-button") {
     e.preventDefault();
     openRoomFilterForm(e);
   }
-  if ((e.which === 13 || 1 || 2 || 3) && e.target.type === "radio") {
+  if ((e.which === 13 || e.which === 1 || e.which === 2 || e.which === 3) && e.target.type === "radio") {
     $('#filter-room-type').attr("disabled", false);
     $('#filter-room-type').attr("data-room", e.target.value);
   }
-  if ((e.which === 13 || 1 || 2 || 3)  && e.target.id === "filter-room-type") {
+  if ((e.which === 13 || e.which === 1 || e.which === 2 || e.which === 3)  && e.target.id === "filter-room-type") {
     e.preventDefault();
     let roomsAvailable = currentHotel.getUnoccupiedRooms();
     let desiredRoom = e.target.dataset.room;
@@ -143,7 +143,7 @@ function handleRoomInput(e) {
     $('#room-table').remove();
     displayFilteredRooms(filteredRoomsAvailable);
   }
-  if ((e.which === 13 || 1 || 2 || 3) && e.target.classList.contains("room-booking")) {
+  if ((e.which === 13 || e.which === 1 || e.which === 2 || e.which === 3) && e.target.classList.contains("room-booking")) {
     e.preventDefault();
     let selectedRoomNumber = e.target.dataset.number; 
     let newBookingObject = {userID: currentCustomer.id, date: today, roomNumber: parseInt(selectedRoomNumber)};
