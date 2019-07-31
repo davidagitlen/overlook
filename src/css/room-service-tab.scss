@@ -64,7 +64,7 @@ $order-color: #960B0B;
 	}
 
 	& #user-orders {
-		@include dimensions(max-content, max-content);
+		@include dimensions(300px, max-content);
 		@include table-style(block, scroll, 15px, 10px, center, solid 1px lightgray);
 
 		& tbody tr:nth-child(odd) {
