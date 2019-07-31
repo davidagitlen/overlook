@@ -12,8 +12,7 @@
 
 ### Screenshots/Links
 
-![Overlook gif1](./src/images/demogif1.gif)
-![Overlook gif2](./src/images/demogif2.gif)
+![Overlook demo gif](./src/images/demogif2.gif)
 
 ### Installation Steps
 
