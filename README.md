@@ -1,6 +1,6 @@
 # Overlook 
 
-##### This project presents a model of software for use by hotel staff to handle guest intake and conduct basic account updates like making bookings and placing room service orders. The interface reflects the straight-forward style of those available in the workplace, and is tabbable and displayed in high-contrast colors to enhance accessibility.
+##### This project presents a model of software to be used by hotel staff to handle guest intake and conduct basic account updates like making bookings and placing room service orders. The interface reflects the straight-forward style of those commonly available in the workplace, and is tabbable and displayed in high-contrast colors to enhance accessibility.
 
 ### Tools/Libraries used... 
 
